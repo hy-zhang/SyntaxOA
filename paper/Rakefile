@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+task :default => :paper
+
+def latexmk_cmd(target, options = "")
+  # "Since minted makes calls to the outside world (i.e. Pygments), you need to
+  # tell the LaTeX processor about this by passing it the -shell-escape option
+  # or it won’t allow such calls."
+  # engine = "pdflatex"
+
+  # xelatex is said to be more stable than lualatex and ShareLaTeX does not
+  # offer the latter.
+  # http://tex.stackexchange.com/a/111625
+  engine = "xelatex"
+  # engine = "lualatex"
+
+  # -f     Force latexmk to continue document processing despite errors.
+  "latexmk #{options} -pdf -pdflatex='#{engine} -shell-escape %O %S' #{target}.tex"
+end
+
+desc "Generate the PDF of the paper"
+task(:paper) { system(latexmk_cmd("main")) }
+
+desc "Generate the PDF for formalization"
+task(:formalization) { system(latexmk_cmd("formalization")) }
+
+desc "Watch for changes and re-generate the PDF if necessary"
+task(:watch => :clean) { system(latexmk_cmd("main", "-pvc")) }
+
+desc "Clean"
+task(:clean => :git_clean) { system("latexmk -c") }
+
+desc "Remove only files ignored by Git (not including untracked file)"
+task(:git_clean) { system("git clean -Xf") }

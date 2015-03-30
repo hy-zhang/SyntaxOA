@@ -1,0 +1,40 @@
+\section{Implementation}
+
+We implemented the core functionalities of the \name as part of a JVM-based
+compiler. The implementation supports record update instead of restriction as a
+primitive; however the former is formalized with the same underlying idea of
+elaborating records. Based on the type system of \name, we built an ML-like
+source language compiler that offers interoperability with Java (such as object
+creation and method calls). The source language is loosely based on the more
+general System $F_{\omega}$ (compared to our target, System $F$) and supports a
+number of other features, including multi-field records, mutually recursive
+\code{let} bindings, type aliases, algebraic data types, pattern matching, and
+first-class modules that are encoded with \code{letrec} and records.
+
+Relevant to this paper are the three following phases in the compiler that
+collectively turn source programs into System $F$:
+
+\begin{enumerate}
+\item A \emph{typechecking} phase that checks the usage of \name features and
+  other source language features against an abstract syntax tree that follows
+  the source syntax.
+
+\item A \emph{desugaring} phase that translates well-typed source terms into
+  \name terms. Source-level features such as multi-field records, type aliases
+  are removed at this phase. The resulting program is just an \name expression
+  extended with some other constructs necessary for code generation.
+
+\item A \emph{translation} phase that turns well-typed \name terms into System
+  $F$ ones.
+\end{enumerate}
+
+Phase 3 is what we have formalized in this paper.
+
+\paragraph{Removing identity functions.} Our translation inserts identity
+functions whenever subtyping or record operation occurs, which could mean
+notable run-time overhead. But in practice this is not an issue. In the current
+implementation, we introduced a partial evaluator with three simple rewriting
+rules to eliminate the redundant identity functions as another compiler phase
+after the translation. In another version of our implementation, partial
+evaluation is weaved into the process of translation so that the unwanted
+identity functions are not introduced during the translation.

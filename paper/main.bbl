@@ -1,0 +1,333 @@
+\begin{thebibliography}{52}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Amin et~al.(2012)Amin, Moors, and Odersky]{amin2012dependent}
+N.~Amin, A.~Moors, and M.~Odersky.
+\newblock Dependent object types.
+\newblock In \emph{19th International Workshop on Foundations of
+  Object-Oriented Languages}, number EPFL-CONF-183030, 2012.
+
+\bibitem[Amin et~al.(2014)Amin, Rompf, and Odersky]{amin2014foundations}
+N.~Amin, T.~Rompf, and M.~Odersky.
+\newblock Foundations of path-dependent types.
+\newblock In \emph{Proceedings of the 2014 ACM International Conference on
+  Object Oriented Programming Systems Languages \& Applications}, pages
+  233--249. ACM, 2014.
+
+\bibitem[Aracic et~al.(2006)Aracic, Gasiunas, Mezini, and
+  Ostermann]{Aracic06CaesarJ}
+I.~Aracic, V.~Gasiunas, M.~Mezini, and K.~Ostermann.
+\newblock Transactions on aspect-oriented software development i.
+\newblock chapter An Overview of Caesarj. 2006.
+
+\bibitem[Bracha et~al.(1998)Bracha, Odersky, Stoutamire, and
+  Wadler]{Bracha98making}
+G.~Bracha, M.~Odersky, D.~Stoutamire, and P.~Wadler.
+\newblock Making the future safe for the past: Adding genericity to the java
+  programming language.
+\newblock In \emph{Proceedings of the 13th ACM SIGPLAN Conference on
+  Object-oriented Programming, Systems, Languages, and Applications}, OOPSLA
+  '98, pages 183--200, 1998.
+
+\bibitem[Canning et~al.(1989)Canning, Cook, Hill, Olthoff, and
+  Mitchell]{Canning89f-bounded}
+P.~Canning, W.~Cook, W.~Hill, W.~Olthoff, and J.~C. Mitchell.
+\newblock F-bounded polymorphism for object-oriented programming.
+\newblock In \emph{Proceedings of the Fourth International Conference on
+  Functional Programming Languages and Computer Architecture}, FPCA '89, pages
+  273--280, New York, NY, USA, 1989. ACM.
+\newblock ISBN 0-89791-328-0.
+\newblock \doi{10.1145/99370.99392}.
+\newblock URL \url{http://doi.acm.org/10.1145/99370.99392}.
+
+\bibitem[Cardelli(1992)]{cardelli1992extensible}
+L.~Cardelli.
+\newblock \emph{Extensible records in a pure calculus of subtyping}.
+\newblock Digital. Systems Research Center, 1992.
+
+\bibitem[Cardelli and Mitchell(1990)]{cardelli1990operations}
+L.~Cardelli and J.~C. Mitchell.
+\newblock Operations on records.
+\newblock In \emph{Mathematical foundations of programming semantics}, pages
+  22--52. Springer, 1990.
+
+\bibitem[Cardelli and Wegner(1985)]{cardelli1985understanding}
+L.~Cardelli and P.~Wegner.
+\newblock On understanding types, data abstraction, and polymorphism.
+\newblock \emph{ACM Computing Surveys (CSUR)}, 17\penalty0 (4):\penalty0
+  471--523, 1985.
+
+\bibitem[Cardelli et~al.(1994)Cardelli, Martini, Mitchell, and Scedrov]{CMMS}
+L.~Cardelli, S.~Martini, J.~Mitchell, and A.~Scedrov.
+\newblock An extension of {System F} with subtyping.
+\newblock \emph{Information and Computation}, 109:\penalty0 4--56, 1994.
+\newblock Preliminary version appeared {\it Proc. Theor. Aspects of Computer
+  Software,} Springer LNCS 526, September 1991, pages 750--770.
+
+\bibitem[Castagna et~al.(1995)Castagna, Ghelli, and
+  Longo]{castagna1995calculus}
+G.~Castagna, G.~Ghelli, and G.~Longo.
+\newblock A calculus for overloaded functions with subtyping.
+\newblock \emph{Information and Computation}, 117\penalty0 (1):\penalty0
+  115--135, 1995.
+
+\bibitem[Chlipala(2010)]{chlipala2010ur}
+A.~Chlipala.
+\newblock Ur: statically-typed metaprogramming with type-level record
+  computation.
+\newblock In \emph{ACM Sigplan Notices}, volume~45, pages 122--133. ACM, 2010.
+
+\bibitem[Compagnoni and Pierce(1996)]{compagnoni1996higher}
+A.~B. Compagnoni and B.~C. Pierce.
+\newblock Higher-order intersection types and multiple inheritance.
+\newblock \emph{Mathematical Structures in Computer Science}, 6\penalty0
+  (5):\penalty0 469--501, 1996.
+
+\bibitem[Cook et~al.(1989)Cook, Hill, and Canning]{cook1989inheritance}
+W.~R. Cook, W.~Hill, and P.~S. Canning.
+\newblock Inheritance is not subtyping.
+\newblock In \emph{Proceedings of the 17th ACM SIGPLAN-SIGACT symposium on
+  Principles of programming languages}, pages 125--135. ACM, 1989.
+
+\bibitem[Coppo et~al.(1981)Coppo, Dezani-Ciancaglini, and
+  Venneri]{coppo1981functional}
+M.~Coppo, M.~Dezani-Ciancaglini, and B.~Venneri.
+\newblock Functional characters of solvable terms.
+\newblock \emph{Mathematical Logic Quarterly}, 27\penalty0 (2-6):\penalty0
+  45--58, 1981.
+
+\bibitem[Crary(1998)]{crary1998simple}
+K.~Crary.
+\newblock Simple, efficient object encoding using intersection types.
+\newblock Technical report, Cornell University, 1998.
+
+\bibitem[d.~S.~Oliveira(2009)]{oliveira09modular}
+B.~C. d.~S.~Oliveira.
+\newblock Modular visitor components: A practical solution to the expression
+  families problem.
+\newblock In S.~Drossopoulou, editor, \emph{23rd European Conference on Object
+  Oriented Programming (ECOOP)}, July 2009.
+
+\bibitem[Davies(2005)]{davies2005practical}
+R.~Davies.
+\newblock \emph{Practical refinement-type checking}.
+\newblock PhD thesis, University of Western Australia, 2005.
+
+\bibitem[Davies and Pfenning(2000)]{davies2000intersection}
+R.~Davies and F.~Pfenning.
+\newblock Intersection types and computational effects.
+\newblock In \emph{ACM Sigplan Notices}, volume~35, pages 198--208. ACM, 2000.
+
+\bibitem[Dunfield(2007)]{dunfield2007refined}
+J.~Dunfield.
+\newblock Refined typechecking with stardust.
+\newblock In \emph{Proceedings of the 2007 workshop on Programming languages
+  meets program verification}, pages 21--32. ACM, 2007.
+
+\bibitem[Dunfield(2014)]{dunfield2014elaborating}
+J.~Dunfield.
+\newblock Elaborating intersection and union types.
+\newblock \emph{Journal of Functional Programming}, 24\penalty0 (2-3):\penalty0
+  133--165, 2014.
+
+\bibitem[Ernst(2001)]{Ernst01family}
+E.~Ernst.
+\newblock Family polymorphism.
+\newblock In \emph{Proceedings of the 15th European Conference on
+  Object-Oriented Programming}, ECOOP '01, 2001.
+
+\bibitem[Ernst et~al.()Ernst, Ostermann, and Cook]{ernst2006virtual}
+E.~Ernst, K.~Ostermann, and W.~R. Cook.
+\newblock A virtual class calculus.
+\newblock \emph{POPL 2006}, pages 270--282.
+
+\bibitem[Freeman and Pfenning(1991)]{freeman1991refinement}
+T.~Freeman and F.~Pfenning.
+\newblock \emph{Refinement types for ML}, volume~26.
+\newblock ACM, 1991.
+
+\bibitem[Frisch et~al.(2008)Frisch, Castagna, and Benzaken]{frisch2008semantic}
+A.~Frisch, G.~Castagna, and V.~Benzaken.
+\newblock Semantic subtyping: Dealing set-theoretically with function, union,
+  intersection, and negation types.
+\newblock \emph{Journal of the ACM (JACM)}, 55\penalty0 (4):\penalty0 19, 2008.
+
+\bibitem[Gamma et~al.(1994)Gamma, Helm, Johnson, and
+  Vlissides]{gamma1994design}
+E.~Gamma, R.~Helm, R.~Johnson, and J.~Vlissides.
+\newblock \emph{Design patterns: elements of reusable object-oriented
+  software}.
+\newblock Pearson Education, 1994.
+
+\bibitem[Harrison and Ossher(1993)]{Harrison93subject}
+W.~Harrison and H.~Ossher.
+\newblock Subject-oriented programming: A critique of pure objects.
+\newblock In \emph{Proceedings of the Eighth Annual Conference on
+  Object-oriented Programming Systems, Languages, and Applications}, OOPSLA
+  '93, pages 411--428, 1993.
+
+\bibitem[Igarashi and Viroli(2006)]{Igarashi06variant}
+A.~Igarashi and M.~Viroli.
+\newblock Variant parametric types: A flexible subtyping scheme for generics.
+\newblock \emph{ACM Trans. Program. Lang. Syst.}, 28\penalty0 (5):\penalty0
+  795--847, Sept. 2006.
+
+\bibitem[Knuth(1968)]{Knuth1968}
+D.~Knuth.
+\newblock {Semantics of Context-Free Languages}.
+\newblock \emph{Mathematical Systems Theory}, 2:\penalty0 127--145, 1968.
+
+\bibitem[Leijen(2004)]{leijen2004first}
+D.~Leijen.
+\newblock First-class labels for extensible rows.
+\newblock \emph{UU-CS}, \penalty0 (2004-051), 2004.
+
+\bibitem[Leijen(2005)]{leijen2005extensible}
+D.~Leijen.
+\newblock Extensible records with scoped labels.
+\newblock \emph{Trends in Functional Programming}, 5:\penalty0 297--312, 2005.
+
+\bibitem[McDirmid et~al.(2001)McDirmid, Flatt, and Hsieh]{McDirmid01Jiazzi}
+S.~McDirmid, M.~Flatt, and W.~C. Hsieh.
+\newblock Jiazzi: New-age components for old-fasioned java.
+\newblock In \emph{Proceedings of the 16th ACM SIGPLAN Conference on
+  Object-oriented Programming, Systems, Languages, and Applications}, OOPSLA
+  '01, 2001.
+
+\bibitem[Moors et~al.(2008)Moors, Piessens, and Odersky]{Moors08generics}
+A.~Moors, F.~Piessens, and M.~Odersky.
+\newblock Generics of a higher kind.
+\newblock In \emph{Proceedings of the 23rd ACM SIGPLAN Conference on
+  Object-oriented Programming Systems Languages and Applications}, OOPSLA '08,
+  pages 423--438, 2008.
+
+\bibitem[Nystrom et~al.(2006)Nystrom, Qi, and Myers]{nystrom2006j}
+N.~Nystrom, X.~Qi, and A.~C. Myers.
+\newblock J\&: nested intersection for scalable software composition.
+\newblock In \emph{ACM SIGPLAN Notices}, volume~41, pages 21--36. ACM, 2006.
+
+\bibitem[Oliveira and Cook(2012)]{oliveira2012extensibility}
+B.~C. d.~S. Oliveira and W.~R. Cook.
+\newblock Extensibility for the masses.
+\newblock In \emph{ECOOP 2012--Object-Oriented Programming}, pages 2--27.
+  Springer, 2012.
+
+\bibitem[Oliveira et~al.(2013)Oliveira, Van Der~Storm, Loh, and
+  Cook]{oliveira2013feature}
+B.~C. d.~S. Oliveira, T.~Van Der~Storm, A.~Loh, and W.~R. Cook.
+\newblock Feature-oriented programming with object algebras.
+\newblock In \emph{ECOOP 2013--Object-Oriented Programming}, pages 27--51.
+  Springer, 2013.
+
+\bibitem[Ostermann(2002)]{Ostermann02dynamically}
+K.~Ostermann.
+\newblock Dynamically composable collaborations with delegation layers.
+\newblock In \emph{Proceedings of the 16th European Conference on
+  Object-Oriented Programming}, ECOOP '02, 2002.
+
+\bibitem[Ostermann(2008)]{ostermann2008nominal}
+K.~Ostermann.
+\newblock Nominal and structural subtyping in component-based programming.
+\newblock \emph{Journal of Object Technology}, 7\penalty0 (1):\penalty0
+  121--145, 2008.
+
+\bibitem[Pierce(1991{\natexlab{a}})]{pierce1991programming1}
+B.~C. Pierce.
+\newblock Programming with intersection types, union types, and polymorphism.
+\newblock 1991{\natexlab{a}}.
+
+\bibitem[Pierce(1991{\natexlab{b}})]{pierce1991programming2}
+B.~C. Pierce.
+\newblock \emph{Programming with intersection types and bounded polymorphism}.
+\newblock PhD thesis, Carnegie Mellon University Pittsburgh, PA,
+  1991{\natexlab{b}}.
+
+\bibitem[Pierce(1997)]{pierce1997intersection}
+B.~C. Pierce.
+\newblock Intersection types and bounded polymorphism.
+\newblock \emph{Mathematical Structures in Computer Science}, 7\penalty0
+  (02):\penalty0 129--193, 1997.
+
+\bibitem[Prehofer()]{Prehofer97}
+C.~Prehofer.
+\newblock Feature-oriented programming: A fresh look at objects.
+\newblock In \emph{ECOOP '97 --- Object-Oriented Programming 11th European
+  Conference, Jyv\"{a}skyl\"{a}, Finland}. Springer-Verlag, 1997.
+
+\bibitem[Rendel et~al.(2014)Rendel, Brachth\"{a}user, and
+  Ostermann]{rendel14attributes}
+T.~Rendel, J.~I. Brachth\"{a}user, and K.~Ostermann.
+\newblock From object algebras to attribute grammars.
+\newblock In \emph{Proceedings of the 2014 ACM International Conference on
+  Object Oriented Programming Systems Languages \&\#38; Applications}, OOPSLA
+  '14, pages 377--395, New York, NY, USA, 2014. ACM.
+\newblock ISBN 978-1-4503-2585-1.
+\newblock \doi{10.1145/2660193.2660237}.
+\newblock URL \url{http://doi.acm.org/10.1145/2660193.2660237}.
+
+\bibitem[Reynolds(1974)]{Reynolds74f}
+J.~C. Reynolds.
+\newblock Towards a theory of type structure.
+\newblock In \emph{Programming Symposium, Proceedings Colloque Sur La
+  Programmation}, pages 408--423, London, UK, UK, 1974. Springer-Verlag.
+\newblock ISBN 3-540-06859-7.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=647323.721503}.
+
+\bibitem[Reynolds(1997)]{reynolds1997design}
+J.~C. Reynolds.
+\newblock \emph{Design of the programming language Forsythe}.
+\newblock Springer, 1997.
+
+\bibitem[Smaragdakis and Batory(1998)]{Smaragdakis98mixin}
+Y.~Smaragdakis and D.~S. Batory.
+\newblock Implementing layered designs with mixin layers.
+\newblock In \emph{Proceedings of the 12th European Conference on
+  Object-Oriented Programming}, ECCOP '98, 1998.
+
+\bibitem[Tarr et~al.(1999)Tarr, Ossher, Harrison, and Sutton]{Tarr99ndegrees}
+P.~Tarr, H.~Ossher, W.~Harrison, and S.~M. Sutton, Jr.
+\newblock N degrees of separation: Multi-dimensional separation of concerns.
+\newblock In \emph{Proceedings of the 21st International Conference on Software
+  Engineering}, ICSE '99, pages 107--119, 1999.
+
+\bibitem[Torgersen(2004)]{togersen:2004}
+M.~Torgersen.
+\newblock {The Expression Problem Revisited}.
+\newblock In M.~Odersky, editor, \emph{Proc. of the 18th European Conference on
+  Object-Oriented Programming}, volume 3086 of \emph{Lecture Notes in Computer
+  Science}, pages 123--143, Oslo (Norway), June 2004.
+
+\bibitem[Torgersen et~al.(2004)Torgersen, Hansen, Ernst, von~der Ah{\'e},
+  Bracha, and Gafter]{Torgersen04wildcards}
+M.~Torgersen, C.~P. Hansen, E.~Ernst, P.~von~der Ah{\'e}, G.~Bracha, and
+  N.~Gafter.
+\newblock Adding wildcards to the java programming language.
+\newblock In \emph{Proceedings of the 2004 ACM Symposium on Applied Computing},
+  SAC '04, pages 1289--1296, 2004.
+
+\bibitem[Wadler(1998)]{wadler1998expression}
+P.~Wadler.
+\newblock The expression problem.
+\newblock \emph{Java-genericity mailing list}, 1998.
+
+\bibitem[Wand(1987)]{wand1987complete}
+M.~Wand.
+\newblock Complete type inference for simple objects.
+\newblock In \emph{LICS}, volume~87, pages 37--44, 1987.
+
+\bibitem[Wand(1989)]{wand1989type}
+M.~Wand.
+\newblock Type inference for record concatenation and multiple inheritance.
+\newblock In \emph{Logic in Computer Science, 1989. LICS'89, Proceedings.,
+  Fourth Annual Symposium on}, pages 92--97. IEEE, 1989.
+
+\bibitem[Zenger and Odersky(2005)]{Zenger-Odersky2005}
+M.~Zenger and M.~Odersky.
+\newblock Independently extensible solutions to the expression problem.
+\newblock In \emph{FOOL}, Jan. 2005.
+
+\end{thebibliography}

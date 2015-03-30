@@ -1,0 +1,218 @@
+\section{Related work} \label{sec:related-work}
+
+% \url{http://homepages.inf.ed.ac.uk/gdp/publications/Sub_Par.pdf}
+
+% \cite{plotkin1994subtyping}
+
+% Also discussed intersection types!~\cite{malayeri2008integrating}.
+
+% Pierce Ph.D thesis: F<: + /|
+%        technical report: F + /|, closer to ours
+
+% \cite{barbanera1995intersection}
+
+\paragraph{Intersection types with polymorphism.}
+Our type system combines intersection types and parametric polymorphism.  Closest
+to us is Pierce's work~\cite{pierce1991programming1} on a prototype
+compiler for a language with both intersection types, union types, and
+parametric polymorphism. Similarly to \name in his system universal
+quantifiers do not support bounded quantification. However Pierce did not try to prove any
+meta-theoretical results and his calculus does not have a merge
+operator.  Pierce has also studied a system where both intersection
+types and bounded polymorphism are present in his Ph.D
+dissertation~\cite{pierce1991programming2} and a 1997
+report~\cite{pierce1997intersection}. Going in the direction of higher
+kinds, Compagnoni and Pierce~\cite{compagnoni1996higher} add
+intersection types to System $ F_{\omega} $ and use the new calculus,
+$ F^{\omega}_{\wedge} $, to model multiple inheritance. In their
+system, types include the construct of intersection of types of the
+same kind $ K $. Davies and Pfenning
+\cite{davies2000intersection} study the interactions between
+intersection types and effects in call-by-value languages. And they
+propose a ``value restriction'' for intersection types, similar to
+value restriction on parametric polymorphism.
+There have been attempts to provide a foundational calculus
+for Scala that incorporates intersection
+types~\cite{amin2014foundations,amin2012dependent}. 
+Although the minimal Scala-like calculus does not natively support 
+parametric polymorphism, it is possible to encode parametric
+polymorphism with abstract type members. Thus it can be argued that 
+this calculus also supports intersection types and parametric
+polymorphism. However, the type-soundness of a minimal Scala-like 
+calculus with intersection types and parametric polymorphism is not
+yet proven. Recently, some form of intersection
+types have been adopted in object-oriented languages such as Scala,
+Ceylon, and Grace. Generally speaking,
+the most significant difference to \name is that in all previous systems
+there is no explicit introduction construct like our merge operator. As shown in
+Section~\ref{sec:application}, this feature is pivotal in supporting modularity
+and extensibility because it allows dynamic composition of values.
+
+\begin{comment}
+only allow intersections of concrete types (classes),
+whereas our language allows intersections of type variables, such as
+\texttt{A \& B}. Without that vehicle, we would not be able to define
+the generic \texttt{merge} function (below) for all interpretations of
+a given algebra, and would incur boilerplate code:
+
+\begin{lstlisting}{language=haskell}
+let merge [A, B] (f: ExpAlg A) (g: ExpAlg B) = {
+  lit (x : Int) = f.lit x ,, g.lit x,
+  add (x : A & B) (y : A & B) =
+    f.add x y ,, g.add x y
+}
+\end{lstlisting}
+\end{comment}
+
+
+\paragraph{Other type systems with intersection types.}
+Intersection types date back to as early as Coppo et
+al.~\cite{coppo1981functional}. As emphasized throughout the paper our 
+work is inspired by Dunfield~\cite{dunfield2014elaborating}. He describes a similar approach to ours:
+compiling a system with intersection types into ordinary $ \lambda $-calculus
+terms. The major difference is that his system does not include parametric
+polymorphism, while ours does not include unions. Besides, our rules are
+algorithmic and we formalize a record system.
+% Although similar in spirit,
+% our elaboration typing is simpler: we require subtyping in the case of
+% applications, thus avoiding the subsumption rule. Besides, our treatment
+% combines the merge rules ($ k $ ranges over $ \{1, 2\} $)
+% \inferrule 
+% {\Gamma \turns e_k : \tau}
+% {\Gamma \turns e_1 \mergeop e_2 : \tau}
+% and the standard intersection-introduction rule
+% \inferrule 
+% {\Gamma \turns e : \tau_1 \andalso \Gamma \turns e : \tau_2}
+% {\Gamma \turns e : \tau_1 \andop \tau_2}
+% into one rule:
+% \inferrule [Merge]
+% {\Gamma \turns e_1 : \tau_1 \andalso \Gamma \turns e_2 : \tau_2}
+% {\Gamma \turns e_1 \mergeop e_2 : \tau_1 \andop \tau_2}
+Reynolds invented Forsythe~\cite{reynolds1997design} in the 1980s. Our merge
+operator is analogous to his $ p_1, p_2 $. As Dunfield
+has noted, in Forsythe merges can be only used unambiguously. 
+For instance, it is not allowed in Forsythe to merge two functions.
+
+%Castagna, and Dunfield describe
+%elaborating multi-fields records into merge of single-field records.
+% Reynolds and Castagna do not consider elaboration and Dunfield do not
+% formalize elaborating records.
+
+% Both Pierce and Dunfield's system include a subsumption rule, which states that
+% if an expression has been inferred of type $ \tau $, then it is also of any
+% supertype of $ \tau $. Our system does not have this rule.
+
+Refinement
+intersection~\cite{dunfield2007refined,davies2005practical,freeman1991refinement}
+is the more conservative approach of adopting intersection types. It increases
+only the expressiveness of types but not terms. But without a term-level
+construct like ``merge'', it is not possible to encode various language
+features. As an alternative to syntatic subtyping described in this paper,
+Frisch et al.~\cite{frisch2008semantic} study semantic subtyping.
+
+\paragraph{Languages for extensibility.}
+To improve support for extensibility various researchers have proposed
+new OOP languages or programming mechanisms. It is interesting to
+note that design patterns such as object algebras or modular visitors
+provide a considerably different approach to extensibility when
+compared to some previous proposals for language designs for
+extensibility. Therefore the requirements in terms of type system
+features are quite different.  One popular approach is \emph{family
+  polymorphism}~\cite{Ernst01family}, which allows whole class hierarchies to be
+captured as a family of classes. Such a family can be later reused to
+create a derived family with potentially new class members, and
+additional methods in the existing classes.  \emph{Virtual
+  classes}~\cite{ernst2006virtual} are a concrete realization of this idea, where a
+container class can hold nested inner \emph{virtual} classes (forming
+the family of classes). In a subclass of the container class, the
+inner classes can themselfves be \emph{overriden}, which is why they
+are called virtual. There are many language mechanisms that provide
+variants of virtual classes or similar mechanisms~\cite{McDirmid01Jiazzi,Aracic06CaesarJ,Smaragdakis98mixin,nystrom2006j}. The work by 
+Nystrom on \emph{nested intersection}~\cite{nystrom2006j} uses a
+form of intersection types to support the composition of
+families of classes. Ostermann's \emph{delegation layers}~\cite{Ostermann02dynamically}
+use delegation for doing dynamic composition in a system 
+with virtual classes. This in contrast with most other approaches 
+that use class-based composition, but closer to the dynamic
+composition that we use in \name.
+
+\begin{comment}
+In contrast to type systems for virtual classes 
+and similar mechanisms, the goal of our work is to study the type
+systems and basic language mechanism to better support such design patterns. 
+
+
+ some researchers have designed new type
+system features such as virtual classes~\cite{ernst2006virtual}, polymorphic
+variants~\cite{garrigue1998programming}, while others have shown employing
+programming pattern such as object algebras~\cite{oliveira2012extensibility} by
+using features within existing programming languages. Both of the two approaches
+have drawbacks of some kind. The first approach often involves heavyweight
+designs, while the second approach still sacrifices the readability for
+extensibility.
+\bruno{fill me in with more details and more references!}
+\end{comment}
+
+% Intersection types have been shown to be useful in designing languages that
+% support modularity.~\cite{nystrom2006j}
+
+\paragraph{Extensible records.}
+
+%\george{Record field deletion is also possible.}
+
+% http://elm-lang.org/learn/Records.elm
+
+Encoding records using intersection types appear in
+Reynolds~\cite{reynolds1997design} and Castagna et
+al.~\cite{castagna1995calculus}. Although Dunfield also discusses this idea in
+his paper \cite{dunfield2014elaborating}, he only provides an implementation but
+not formalization. Very similar to our treatment of elaborating records is
+Cardelli's work~\cite{cardelli1992extensible} on translating a calculus, named
+$ F_{\subtype \rho}$, with extensible records to a simpler calculus that without
+records primitives (in which case is $ F_{\subtype} $). But he does not consider
+encoding multi-field records as intersections; hence his translation is more
+heavyweight. Crary~\cite{crary1998simple} uses intersection types and
+existential types to address the problem that arises when interpreting method
+dispatch as self-application. But in his paper, intersection types are not used
+to encode multi-field records.
+
+Wand~\cite{wand1987complete} started the work on extensible records and proposes
+row types~\cite{wand1989type} for records. Cardelli and
+Mitchell~\cite{cardelli1990operations} defined three primitive operations on
+records that are similar to ours: \emph{selection}, \emph{restriction}, and
+\emph{extension}. The merge operator in \name plays the same role as extension.
+Following Cardelli and Mitchell's approach,
+Leijen~\cite{leijen2004first,leijen2005extensible} define record update in terms
+of restriction and extension. Both Leijen's system and ours allows records that contain
+duplicate labels. Arguably Leijen's system is stronger. For example, it supports
+passing record labels as arguments to functions. He also shows encoding an
+intersection types using first-class labels. \bruno{check carefully
+  this text!}
+Chlipala's
+\texttt{Ur}~\cite{chlipala2010ur} explains record as type level
+constructs.\bruno{What is the point of citing Chlipala's paper?}
+\begin{comment}
+Our system can be adapted to simulate systems that support extensible
+records but not intersection of ordinary types like \texttt{Int} and
+\texttt{Float} by allowing only intersection of record types.
+
+$ \turnsrec \tau $ states that $ \tau $ is a record type, or the intersection of
+record types, and so forth.
+
+\inferrule [RecBase] {} {\turnsrec \recty l \tau}
+
+\inferrule [RecStep]
+{\turnsrec \tau_1 \andalso \turnsrec \tau_2}
+{\turnsrec \tau_1 \andop \tau_2}
+
+\inferrule [Merge']
+{\Gamma \turns e_1 : \tau_1 \yields {E_1} \andalso \turnsrec \tau_1 \\
+ \Gamma \turns e_2 : \tau_2 \yields {E_2} \andalso \turnsrec \tau_2}
+{\Gamma \turns e_1 \mergeop e_2 : \tau_1 \andop \tau_2 \yields {\pair {E_1} {E_2}}}
+
+Of course our approach has its limitation as duplicated labels in a record are
+allowed. This has been discussed in a larger issue by
+Dunfield~\cite{dunfield2014elaborating}.
+
+R{\'e}my~\cite{remy1989type}
+\end{comment}

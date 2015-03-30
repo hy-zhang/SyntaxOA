@@ -1,0 +1,66 @@
+\newcommand{\judgetwf}[2]{#1 \; \textcolor{targetcolor}{\turns} \; #2}
+\newcommand{\judget}[3]{#1 \; \textcolor{targetcolor}{\turns} \; #2 \; \textcolor{targetcolor}{:} \; #3}
+\newcommand{\rulelabelt}{\bm{\textcolor{targetcolor}{T}}}
+
+\newcommand{\rulelabeltvar}{\rulelabelt\text{var}}
+\newcommand{\ruletvar} {
+\inferrule* [right=$\rulelabeltvar$]
+  {(x,T) \in \Gamma}
+  {\judget \Gamma x T}
+}
+
+\newcommand{\rulelabeltunit}{\rulelabelt\text{unit}}
+\newcommand{\ruletunit} {
+\inferrule* [right=$\rulelabeltunit$]
+  { }
+  {\judget \Gamma {()} {()}}
+}
+
+\newcommand{\rulelabeltlam}{\rulelabelt\text{lam}}
+\newcommand{\ruletlam} {
+\inferrule* [right=$\rulelabeltlam$]
+  {\judget {\Gamma, x \hast T} E {T_1} \andalso \judgetwf \Gamma T}
+  {\judget \Gamma {\lam x T E} {T \to T_1}}
+}
+
+\newcommand{\rulelabeltapp}{\rulelabelt\text{app}}
+\newcommand{\ruletapp}{
+\inferrule* [right=$\rulelabeltapp$]
+  {\judget \Gamma {E_1} {T_1 \to T_2} \andalso \judget \Gamma {E_2} {T_1}}
+  {\judget \Gamma {\app {E_1} {E_2}} {T_2}}
+}
+
+\newcommand{\rulelabeltblam}{\rulelabelt\text{blam}}
+\newcommand{\ruletblam}{
+\inferrule* [right=$\rulelabeltblam$]
+  {\judgee {\Gamma, \alpha} E T}
+  {\judgee \Gamma {\blam \alpha E} {\for \alpha T}}
+}
+
+\newcommand{\rulelabelttapp}{\rulelabelt\text{tapp}}
+\newcommand{\rulettapp}{
+\inferrule* [right=$\rulelabelttapp$]
+  {\judget \Gamma E {\for \alpha {T_1}} \andalso \judgetwf \Gamma T}
+  {\judget \Gamma {\tapp E T} {\subst T \alpha T_1}}
+}
+
+\newcommand{\rulelabeltpair}{\rulelabelt\text{pair}}
+\newcommand{\ruletpair}{
+\inferrule* [right=$\rulelabeltpair$]
+  {\judget \Gamma {E_1} {T_1} \andalso \judget \Gamma {E_2} {T_2}}
+  {\judget \Gamma {\pair {E_1} {E_2}} {\pair {T_1} {T_2}}}
+}
+
+\newcommand{\rulelabeltprojleft}{\rulelabelt\text{proj}_1}
+\newcommand{\ruletprojleft}{
+\inferrule* [right=$\rulelabeltprojleft$]
+  {\judget \Gamma E {\pair {T_1} {T_2}}}
+  {\judget \Gamma {\proj 1 E} {T_1}}
+}
+
+\newcommand{\rulelabeltprojright}{\rulelabelt\text{proj}_2}
+\newcommand{\ruletprojright}{
+\inferrule* [right=$\rulelabeltprojright$]
+  {\judget \Gamma E {\pair {T_1} {T_2}}}
+  {\judget \Gamma {\proj 2 E} {T_2}}
+}
