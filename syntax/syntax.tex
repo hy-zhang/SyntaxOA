@@ -1,0 +1,193 @@
+\documentclass{article}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,algorithm,algpseudocode}
+\usepackage{color,chngpage}
+\usepackage{extramarks,epsfig}
+\usepackage{fancyhdr,float}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{lastpage,listings}
+\usepackage{soul,setspace}
+\usepackage{wrapfig}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.85]{beramono}
+
+% Homework Specific Information. Change it to your own
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+\lstset{ %
+language=Java,                % choose the language of the code
+columns=flexible,
+lineskip=-1pt,
+basicstyle=\ttfamily\small,       % the size of the fonts that are used for the code
+numbers=none,                   % where to put the line-numbers
+numberstyle=\ttfamily\tiny,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,                   % adds a frame around the code
+morekeywords={sig,where,type,algebra,data,from,let},
+tabsize=2,                  % sets default tabsize to 2 spaces
+captionpos=none,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting; also try caption instead of title
+escapeinside={(*}{*)},          % if you want to add a comment within your code
+keywordstyle=\ttfamily\bfseries,
+% commentstyle=\color{Gray},
+% stringstyle=\color{Green}
+}
+
+% Setup the header and footer
+\pagestyle{fancy}
+\rfoot{Page\ \thepage\ of\ \protect\pageref{LastPage}}
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+
+\newcommand{\Answer}{\ \\\textbf{Answer:} }
+\newcommand{\todo}{\textbf{Proposition. } }
+\newcommand{\lemma}{\textbf{Lemma. } }
+\newcommand{\tab}{\ \ }
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\huge\textmd{\bf Syntax: Object Algebras}}
+\date{}
+\author{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{spacing}{1.1}
+\maketitle \thispagestyle{empty}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin edit from here
+
+\section{Object Algebra Interface}
+
+\subsection{Inheritance $\times$}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     sig (*$N_{AI}[\overline{T_{AI}}]$*) where (*$\overline{N_{CS}:T_{CS}}$*);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = {(*$\overline{N_{CS}:T_{CS}}$*)};
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{ExpAlg[E]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     sig ExpAlg[E] where
+                lit : Int -> E,
+                add : E -> E -> E;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type ExpAlg[E] = {
+                lit : Int -> E,
+                add : E -> E -> E
+            };
+\end{lstlisting}
+
+\subsection{Inheritance $\surd$}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     sig (*$N_{AI}[\overline{T_{AI}}]$*) extends (*$\overline{N_{AI_2}[\overline{T_{AI_2}}]}$*) where (*$\overline{N_{CS}:T_{CS}}$*);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\&}(\overline{N_{AI_2}[\overline{T_{AI_2}}]})$*) & (*$\{\overline{N_{CS}:T_{CS}}\}$*);
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{StatAlg[E, S]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     sig StatAlg[E, S] extends ExpAlg[E] where
+                seq : S -> S -> S,
+                asn : String -> E -> S;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type StatAlg[E, S] = (ExpAlg[E]) & {
+                seq : S -> S -> S,
+                asn : String -> E -> S
+            };
+\end{lstlisting}
+
+\section{Object Algebra}
+
+\subsection{Inheritance $\times$}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     algebra (*$N_A$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      [(*$\overline{T_A}/\overline{T_{AI}}$*)] let (*$N_A$*) = (*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{EvalExpAlg}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     type IEval = { eval : Int };
+            algebra EvalExpAlg implements ExpAlg[IEval] where
+                eval@(lit x) = x,
+                eval@(add x y) = x.eval + y.eval;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type IEval = { eval : Int };
+            let EvalExpAlg = {
+                lit = \(x : Int) -> { eval = x },
+                add = \(x : IEval) -> \(y : IEval) -> { eval = x.eval + y.eval }
+            };
+\end{lstlisting}
+
+\subsection{Inheritance $\surd$}
+
+\subsubsection{Template}
+
+\subsubsection{Example: \lstinline{PrintStatAlg}}
+
+\section{Datatype}
+
+\subsection{Template}
+
+\subsection{Example: \lstinline{List[A]}}
+
+\section{Creating a Structure}
+
+\subsection{Template}
+
+\subsection{Example: }
+
+\section{Instantiation}
+
+\subsection{Template}
+
+\subsection{Example: }
+
+% End edit to here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{spacing}
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

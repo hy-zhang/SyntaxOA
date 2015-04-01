@@ -1,0 +1,109 @@
+\documentclass{article}
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{algorithm}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{indentfirst}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{algpseudocode}
+\usepackage{epsfig}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+
+% Homework Specific Information. Change it to your own
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+\lstset{ %
+language=Java,                % choose the language of the code
+columns=flexible,
+lineskip=-1pt,
+basicstyle=\ttfamily\small,       % the size of the fonts that are used for the code
+numbers=none,                   % where to put the line-numbers
+numberstyle=\ttfamily\tiny,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+%  frame=single,                   % adds a frame around the code
+tabsize=2,                  % sets default tabsize to 2 spaces
+captionpos=none,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting; also try caption instead of title
+escapeinside={(*}{*)},          % if you want to add a comment within your code
+keywordstyle=\ttfamily\bfseries,
+deletekeywords={label}
+% commentstyle=\color{Gray},
+% stringstyle=\color{Green}
+}
+
+% Setup the header and footer
+\pagestyle{fancy}
+\rfoot{Page\ \thepage\ of\ \protect\pageref{LastPage}}
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+
+\newcommand{\Answer}{\ \\\textbf{Answer:} }
+\newcommand{\todo}{\textbf{Proposition. } }
+\newcommand{\lemma}{\textbf{Lemma. } }
+\newcommand{\tab}{\ \ }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\huge\textmd{\bf Syntax: Object Algebras}}
+\date{}
+\author{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{spacing}{1.1}
+\maketitle \thispagestyle{empty}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin edit from here
+
+\section{Object Algebra Interface}
+
+\subsection{Inheritance $\times$}
+
+\begin{align*}
+&\bold{sig}\tab N_{AI}[\overline{T_{AI}}]\tab\bold{where}\tab
+\overline{N_{CS}:T_{CS}};\\
+\hookrightarrow\tab&\bold{type}\tab N_{AI}[\overline{T_{AI}}]
+\tab=\tab\{\overline{N_{CS}:T_{CS}}\};
+\end{align*}
+
+\subsection{Inheritance $\surd$}
+
+\section{Object Algebra}
+
+\section{Datatype}
+
+\section{Creating a structure}
+
+\section{Instantiation}
+
+% End edit to here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{spacing}
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
