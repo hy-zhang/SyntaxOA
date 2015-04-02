@@ -65,6 +65,7 @@ keywordstyle=\ttfamily\bfseries,
 \newcommand{\lemma}{\textbf{Lemma. } }
 \newcommand{\tab}{\ \ }
 \newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
 \newcommand{\nb}{\textit{NB. }}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,6 +84,15 @@ keywordstyle=\ttfamily\bfseries,
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Begin edit from here
+
+\section*{Notations}
+
+\begin{align*}
+N,\ T,\ \overline{N},\ \overline{T}:&\textrm{ name, type, list of names, list of types.}\\
+\red{\&}(\overline{T}):&\textrm{ intersecting a list of types.}\\
+\red{(,,)}(\overline{E}):&\textrm{ merging a list of expressions.}\\
+\red{[}\blue{A}\red{/B]}E:&\textrm{ substituting }A\textrm{ for }B\textrm{ in expression }E.
+\end{align*}
 
 \section{Object Algebra Interface}
 
@@ -148,7 +158,7 @@ AFTER:      type StatAlg[E, S] = (ExpAlg[E]) & {
 BEFORE:     algebra (*$N_A$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      let (*$N_A$*) = (*$\red{[\overline{T_A}/\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+AFTER:      let (*$N_A$*) = (*$\red{[}\blue{\overline{T_A}}/\red{\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
 \end{lstlisting}
 
 \subsubsection{Example: \lstinline{EvalExpAlg}}
@@ -175,7 +185,7 @@ AFTER:      type IEval = { eval : Int };
 BEFORE:     algebra (*$N_A$*) extends (*$\overline{N_{A_2}}$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      let (*$N_A$*) =  (*$\left((\red{,,})\left(\overline{N_{A_2}}\right)\right)$*) ,, (*$\red{[\overline{T_A}/\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+AFTER:      let (*$N_A$*) =  (*$\left((\red{,,})\left(\overline{N_{A_2}}\right)\right)$*) ,, (*$\red{[}\blue{\overline{T_A}}\red{/\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
 \end{lstlisting}
 
 \nb The same for multiple inheritance.
@@ -242,10 +252,10 @@ AFTER:      type ListAlg[A, L] = {
 BEFORE:     build (*$N_S$*) : (*$N_D[\overline{T}]$*) = E;
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      let (*$N_S$*) = { accept = (*$\Lambda$*)((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$\lambda$*)(alg : (*$N_{AI}[\red{[\overline{T}/\overline{T_D}]}\overline{T_{AI}}]$*)). (*$\red{[\overline{alg.N_{CS}}/\overline{N_{CS}}]}$*)E };
+AFTER:      let (*$N_S$*) = { accept = (*$\Lambda$*)((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$\lambda$*)(alg : (*$N_{AI}[\red{[}\blue{\overline{T}}\red{/\overline{T_D}]}\overline{T_{AI}}]$*)). (*$\red{[}\blue{\overline{alg.N_{CS}}}\red{/\overline{N_{CS}}]}$*)E };
 \end{lstlisting}
 
-\nb Potentially there could be name conflicts with \lstinline{alg}.
+\nb Potentially there could be name conflicts with \lstinline{alg}. Also names of functions and constructors could probably overlap.
 
 \subsubsection{Example: \lstinline{Exp} and \lstinline{List[Int]}}
 
@@ -262,17 +272,49 @@ AFTER:      type Exp = { accept : forall E. ExpAlg[E] -> E };
             let lst = { accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons 3 (alg.cons 5 alg.nil) };
 \end{lstlisting}
 
-\subsection{Complicated Structures from Functions}
+\subsection{Complicated Structures Created by Functions}
 
 \subsubsection{Template}
 
-\subsubsection{Example: \lstinline{Exp} and \lstinline{List[Int]}}
+\begin{lstlisting}[numbers=none]
+BEFORE:     build (*$N_S$*) (*$(\overline{x}$*) : (*$\overline{T_1\ne N_D[\overline{T}]})\ (\overline{y}$*) : (*$\overline{T_2=N_D[\overline{T}]})$*) : (*$N_D[\overline{T}]$*) = E;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let (*$N_S$*) = (*$\lambda$*)((*$\overline{x}$*) : (*$\overline{T_1}$*)). (*$\lambda$*)((*$\overline{y}$*) : (*$\overline{T_2}$*)). {
+                accept = (*$\Lambda$*)((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$\lambda$*)(alg : (*$N_{AI}[\red{[}\blue{\overline{T}}\red{/\overline{T_D}]}\overline{T_{AI}}]$*)). (*$\red{[}\blue{\overline{alg.N_{CS}}}\red{/\overline{N_{CS}}]}\red{[}\blue{(\overline{y.accept[\overline{T_{AI}}\backslash\overline{T_D}]\ alg})}\red{/\overline{y}]}$*)E
+            };
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{myAdd} and \lstinline{myCons}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     build myAdd (e1 : Exp) (e2 : Exp) : Exp = add e1 e2;
+            build myCons (x : Int) (xs : List[Int]) : List[Int] = cons x xs;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let myAdd = \(e1 : Exp) -> \(e2 : Exp) -> {
+                accept = /\E -> \(alg : ExpAlg[E]) -> alg.add (e1.accept[E] alg) (e2.accept[E] alg)
+            };
+            let myCons = \(x : Int) -> \(xs : List[Int]) -> {
+                accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons x (xs.accept[L] alg)
+            };
+\end{lstlisting}
+
+\nb Extension 1: What if there are BigLambdas in those functions?\\
+
+\nb Extension 2: Does it make sense if there are two different instantiations from one datatype in a function? Namely $N_D[\overline{T_1}]$ and $N_D[\overline{T_2}]$?\\
+
+\nb Extension 3: Recursive ones?\\
+
+\nb IMPORTANT: Why don't we generate \lstinline{"add : Exp -> Exp -> Exp"} and \lstinline{"cons : A -> List[A] -> List[A]"} automatically for global use? My intuition is that for these two examples it's easy; however there could be non-trivial ones. For instance, a new constructor for \lstinline{ListAlg} can be \lstinline{"f : L -> A"}, in which case some structures like \lstinline{"cons (f nil)}\lstinline{ nil"} also make sense, but how to design a template for \lstinline{"f : List[Int] -> Int"}? Instead it's easier to have \lstinline{"alg.cons (alg.f alg.nil)}\lstinline{ alg.nil"}.
 
 \section{Instantiation}
 
 \subsection{Template}
 
 \subsection{Example: }
+
+% Transformation?
 
 % End edit to here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

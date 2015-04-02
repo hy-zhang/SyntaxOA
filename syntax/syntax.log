@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2015.4.1)  2 APR 2015 15:00
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2015.4.1)  2 APR 2015 17:31
 entering extended mode
 **C:/Users/Haoyuan/Documents/GitHub/SyntaxOA/syntax/syntax.tex
 (C:/Users/Haoyuan/Documents/GitHub/SyntaxOA/syntax/syntax.tex
@@ -271,18 +271,18 @@ Package: beramono 2004/01/31 (WaS)
 File: lstlang1.sty 2004/09/05 1.3 listings language file
 )
 (C:\Users\Haoyuan\Documents\GitHub\SyntaxOA\syntax\syntax.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
 
 (C:\CTEX\MiKTeX\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -304,71 +304,88 @@ Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             or
 (lastpage)             http://www.ctan.org/tex-archive/ 
 (lastpage)             install/macros/latex/contrib/pageslts.tds.zip
-(lastpage)             ! on input line 80.
+(lastpage)             ! on input line 81.
 \c@lstlisting=\count126
-LaTeX Font Info:    Try loading font information for U+msa on input line 82.
+LaTeX Font Info:    Try loading font information for U+msa on input line 83.
  (C:\CTEX\MiKTeX\tex\latex\amsfonts\umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 82.
+LaTeX Font Info:    Try loading font information for U+msb on input line 83.
 
 (C:\CTEX\MiKTeX\tex\latex\amsfonts\umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for T1+fvm on input line 93.
+LaTeX Font Info:    Try loading font information for T1+fvm on input line 103.
 
 (C:\CTEX\MiKTeX\tex\latex\bera\t1fvm.fd
 File: t1fvm.fd 2004/09/07 scalable font definitions for T1/fvm.
 )
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
-(Font)              scaled to size 8.50006pt on input line 93.
+(Font)              scaled to size 8.50006pt on input line 103.
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
-(Font)              scaled to size 7.65005pt on input line 93.
+(Font)              scaled to size 7.65005pt on input line 103.
 LaTeX Font Info:    Font shape `T1/fvm/bx/n' in size <9> not available
-(Font)              Font shape `T1/fvm/b/n' tried instead on input line 94.
+(Font)              Font shape `T1/fvm/b/n' tried instead on input line 104.
 LaTeX Font Info:    Font shape `T1/fvm/b/n' will be
-(Font)              scaled to size 7.65005pt on input line 94.
+(Font)              scaled to size 7.65005pt on input line 104.
 LaTeX Font Info:    Font shape `T1/fvm/bx/n' in size <10> not available
-(Font)              Font shape `T1/fvm/b/n' tried instead on input line 100.
+(Font)              Font shape `T1/fvm/b/n' tried instead on input line 110.
 LaTeX Font Info:    Font shape `T1/fvm/b/n' will be
-(Font)              scaled to size 8.50006pt on input line 100.
+(Font)              scaled to size 8.50006pt on input line 110.
  [1
 
 {C:/CTEX/UserData/pdftex/config/pdftex.map{Unicode.sfd}{UGBK.sfd}}] [2]
 LaTeX Font Info:    Font shape `T1/fvm/bx/n' in size <12> not available
-(Font)              Font shape `T1/fvm/b/n' tried instead on input line 219.
+(Font)              Font shape `T1/fvm/b/n' tried instead on input line 229.
 LaTeX Font Info:    Font shape `T1/fvm/b/n' will be
-(Font)              scaled to size 10.20007pt on input line 219.
- 
+(Font)              scaled to size 10.20007pt on input line 229.
+ [3]
+Underfull \hbox (badness 10000) in paragraph at lines 303--304
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 305--306
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
+
+ []
+
+
 AED: lastpage setting LastPage
-[3] [4] (C:\Users\Haoyuan\Documents\GitHub\SyntaxOA\syntax\syntax.aux) ) 
+[4] (C:\Users\Haoyuan\Documents\GitHub\SyntaxOA\syntax\syntax.aux) ) 
 Here is how much of TeX's memory you used:
- 4857 strings out of 495354
- 61949 string characters out of 3183860
- 329824 words of memory out of 3000000
- 7925 multiletter control sequences out of 15000+200000
- 21671 words of font info for 64 fonts, out of 3000000 for 9000
+ 4869 strings out of 495354
+ 62055 string characters out of 3183860
+ 345824 words of memory out of 3000000
+ 7934 multiletter control sequences out of 15000+200000
+ 23970 words of font info for 67 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 32i,11n,43p,330b,1101s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/CTE
-X/MiKTeX/fonts/enc/dvips/cm-super/cm-super-t1.enc}{C:/CTEX/MiKTeX/fonts/enc/dvi
-ps/fontname/8r.enc}<C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmex9.pf
-b><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/CTEX/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmmi6.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmmi7.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/CT
-EX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/CTEX/MiKTeX/fonts/type1/
-public/amsfonts/cm/cmr5.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9
-.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/CTEX/MiKTeX/
-fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/CTEX/MiKTeX/fonts/type1/bera/fvmb8
-a.pfb><C:/CTEX/MiKTeX/fonts/type1/bera/fvmr8a.pfb><C:/CTEX/MiKTeX/fonts/type1/p
-ublic/cm-super/sfbx1000.pfb><C:/CTEX/MiKTeX/fonts/type1/public/cm-super/sfbx120
-0.pfb><C:/CTEX/MiKTeX/fonts/type1/public/cm-super/sfbx1440.pfb><C:/CTEX/MiKTeX/
-fonts/type1/public/cm-super/sfbx2074.pfb><C:/CTEX/MiKTeX/fonts/type1/public/cm-
-super/sfrm1000.pfb><C:/CTEX/MiKTeX/fonts/type1/public/cm-super/sfrm1200.pfb><C:
-/CTEX/MiKTeX/fonts/type1/public/cm-super/sfti1000.pfb>
-Output written on syntax.pdf (4 pages, 215614 bytes).
+ 32i,12n,43p,684b,1677s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/CTEX/Mi
+KTeX/fonts/enc/dvips/cm-super/cm-super-t1.enc}{C:/CTEX/MiKTeX/fonts/enc/dvips/f
+ontname/8r.enc}<C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C
+:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/CTEX/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmmi6.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmmi7.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/CTEX/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/CTEX/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmr5.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb
+><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/CTEX/MiKTeX/fonts/
+type1/public/amsfonts/cm/cmr9.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmsy10.pfb><C:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/CTEX/
+MiKTeX/fonts/type1/bera/fvmb8a.pfb><C:/CTEX/MiKTeX/fonts/type1/bera/fvmr8a.pfb>
+<C:/CTEX/MiKTeX/fonts/type1/public/cm-super/sfbx1000.pfb><C:/CTEX/MiKTeX/fonts/
+type1/public/cm-super/sfbx1200.pfb><C:/CTEX/MiKTeX/fonts/type1/public/cm-super/
+sfbx1440.pfb><C:/CTEX/MiKTeX/fonts/type1/public/cm-super/sfbx2074.pfb><C:/CTEX/
+MiKTeX/fonts/type1/public/cm-super/sfrm1000.pfb><C:/CTEX/MiKTeX/fonts/type1/pub
+lic/cm-super/sfrm1200.pfb><C:/CTEX/MiKTeX/fonts/type1/public/cm-super/sfti1000.
+pfb>
+Output written on syntax.pdf (4 pages, 246181 bytes).
 PDF statistics:
- 93 PDF objects out of 1000 (max. 8388607)
+ 101 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

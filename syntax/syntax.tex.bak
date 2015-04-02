@@ -13,6 +13,8 @@
 
 % Homework Specific Information. Change it to your own
 
+\newcommand{\thistitle}{Syntax: Object Algebras}
+
 % In case you need to adjust margins:
 \topmargin=-0.45in      %
 \evensidemargin=0in     %
@@ -35,7 +37,7 @@ showspaces=false,               % show spaces adding particular underscores
 showstringspaces=false,         % underline spaces within strings
 showtabs=false,                 % show tabs within strings adding particular underscores
 frame=single,                   % adds a frame around the code
-morekeywords={sig,where,type,algebra,data,from,let},
+morekeywords={sig,where,type,algebra,data,from,let,build},
 tabsize=2,                  % sets default tabsize to 2 spaces
 captionpos=none,                   % sets the caption-position to bottom
 breaklines=true,                % sets automatic line breaking
@@ -49,6 +51,8 @@ keywordstyle=\ttfamily\bfseries,
 
 % Setup the header and footer
 \pagestyle{fancy}
+\lhead{} \chead{\thistitle} \rhead{}
+\lfoot{} \cfoot{}
 \rfoot{Page\ \thepage\ of\ \protect\pageref{LastPage}}
 \renewcommand\headrulewidth{0.4pt}                                      %
 \renewcommand\footrulewidth{0.4pt}                                      %
@@ -61,6 +65,7 @@ keywordstyle=\ttfamily\bfseries,
 \newcommand{\lemma}{\textbf{Lemma. } }
 \newcommand{\tab}{\ \ }
 \newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
 \newcommand{\nb}{\textit{NB. }}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,7 +73,7 @@ keywordstyle=\ttfamily\bfseries,
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Make title
-\title{\huge\textmd{\bf Syntax: Object Algebras}}
+\title{\huge\textmd{\bf\thistitle}}
 \date{}
 \author{\today}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -144,7 +149,7 @@ AFTER:      type StatAlg[E, S] = (ExpAlg[E]) & {
 BEFORE:     algebra (*$N_A$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      let (*$N_A$*) = (*$\red{[\overline{T_A}/\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+AFTER:      let (*$N_A$*) = (*$\red{[}\blue{\overline{T_A}}/\red{\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
 \end{lstlisting}
 
 \subsubsection{Example: \lstinline{EvalExpAlg}}
@@ -171,7 +176,7 @@ AFTER:      type IEval = { eval : Int };
 BEFORE:     algebra (*$N_A$*) extends (*$\overline{N_{A_2}}$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      let (*$N_A$*) =  (*$\left((\red{,,})\left(\overline{N_{A_2}}\right)\right)$*) ,, (*$\red{[\overline{T_A}/\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+AFTER:      let (*$N_A$*) =  (*$\left((\red{,,})\left(\overline{N_{A_2}}\right)\right)$*) ,, (*$\red{[}\blue{\overline{T_A}}\red{/\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
 \end{lstlisting}
 
 \nb The same for multiple inheritance.
@@ -230,22 +235,64 @@ AFTER:      type ListAlg[A, L] = {
 
 \section{Creating a Structure}
 
-\subsection{Template}
+\subsection{Simple Structures}
+
+\subsubsection{Template}
 
 \begin{lstlisting}[numbers=none]
 BEFORE:     build (*$N_S$*) : (*$N_D[\overline{T}]$*) = E;
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      type (*$N_D[\overline{T_D}]$*) = { accept : forall ((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$N_{AI}[\overline{T_{AI}}]$*) -> (*$S$*) };
+AFTER:      let (*$N_S$*) = { accept = (*$\Lambda$*)((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$\lambda$*)(alg : (*$N_{AI}[\red{[}\blue{\overline{T}}\red{/\overline{T_D}]}\overline{T_{AI}}]$*)). (*$\red{[}\blue{\overline{alg.N_{CS}}}\red{/\overline{N_{CS}}]}$*)E };
 \end{lstlisting}
 
-\subsection{Example: }
+\nb Potentially there could be name conflicts with \lstinline{alg}. Also names of functions and constructors could probably overlap.
+
+\subsubsection{Example: \lstinline{Exp} and \lstinline{List[Int]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     data Exp from ExpAlg[E].E;
+            data List[A] from ListAlg[A, L].L;
+            build exp : Exp = add (lit 3) (lit 5);
+            build lst : List[Int] = cons 3 (cons 5 nil);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type Exp = { accept : forall E. ExpAlg[E] -> E };
+            type List[A] = { accept : forall L. ListAlg[A, L] -> L };
+            let exp = { accept = /\E -> \(alg : ExpAlg[E]) -> alg.add (alg.lit 3) (alg.lit 5) };
+            let lst = { accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons 3 (alg.cons 5 alg.nil) };
+\end{lstlisting}
+
+\subsection{Complicated Structures from Functions}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     build (*$N_S$*) (*$(\overline{x}$*) : (*$\overline{T_1\ne N_D[\overline{T}]})\ (\overline{y}$*) : (*$\overline{T_2=N_D[\overline{T}]})$*) : (*$N_D[\overline{T}]$*) = E;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let (*$N_S$*) = (*$\lambda$*)((*$\overline{x}$*) : (*$\overline{T_1}$*)). (*$\lambda$*)((*$\overline{y}$*) : (*$\overline{T_2}$*)). { accept = (*$\Lambda$*)((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$\lambda$*)(alg : (*$N_{AI}[\red{[}\blue{\overline{T}}\red{/\overline{T_D}]}\overline{T_{AI}}]$*)). (*$\red{[}\blue{\overline{alg.N_{CS}}}\red{/\overline{N_{CS}}]}\red{[}\blue{(\overline{y.accept[\overline{T_{AI}}\backslash\overline{T_D}]\ alg})}\red{/\overline{y}]}$*)E };
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{myAdd} and \lstinline{myCons}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     build myAdd (e1 : Exp) (e2 : Exp) : Exp = add e1 e2;
+            build myCons (x : Int) (xs : List[Int]) : List[Int] = cons x xs;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let myAdd = \(e1 : Exp) -> \(e2 : Exp) -> {
+                accept = /\E -> \(alg : ExpAlg[E]) -> alg.add e1 e2
+            };
+\end{lstlisting}
 
 \section{Instantiation}
 
 \subsection{Template}
 
 \subsection{Example: }
+
+% Transformation?
 
 % End edit to here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
