@@ -13,6 +13,8 @@
 
 % Homework Specific Information. Change it to your own
 
+\newcommand{\thistitle}{Syntax: Object Algebras}
+
 % In case you need to adjust margins:
 \topmargin=-0.45in      %
 \evensidemargin=0in     %
@@ -35,7 +37,7 @@ showspaces=false,               % show spaces adding particular underscores
 showstringspaces=false,         % underline spaces within strings
 showtabs=false,                 % show tabs within strings adding particular underscores
 frame=single,                   % adds a frame around the code
-morekeywords={sig,where,type,algebra,data,from,let},
+morekeywords={sig,where,type,algebra,data,from,let,build},
 tabsize=2,                  % sets default tabsize to 2 spaces
 captionpos=none,                   % sets the caption-position to bottom
 breaklines=true,                % sets automatic line breaking
@@ -49,6 +51,8 @@ keywordstyle=\ttfamily\bfseries,
 
 % Setup the header and footer
 \pagestyle{fancy}
+\lhead{} \chead{\thistitle} \rhead{}
+\lfoot{} \cfoot{}
 \rfoot{Page\ \thepage\ of\ \protect\pageref{LastPage}}
 \renewcommand\headrulewidth{0.4pt}                                      %
 \renewcommand\footrulewidth{0.4pt}                                      %
@@ -68,7 +72,7 @@ keywordstyle=\ttfamily\bfseries,
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Make title
-\title{\huge\textmd{\bf Syntax: Object Algebras}}
+\title{\huge\textmd{\bf\thistitle}}
 \date{}
 \author{\today}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -230,9 +234,39 @@ AFTER:      type ListAlg[A, L] = {
 
 \section{Creating a Structure}
 
-\subsection{Template}
+\subsection{Simple Structures}
 
-\subsection{Example: }
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     build (*$N_S$*) : (*$N_D[\overline{T}]$*) = E;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let (*$N_S$*) = { accept = (*$\Lambda$*)((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$\lambda$*)(alg : (*$N_{AI}[\red{[\overline{T}/\overline{T_D}]}\overline{T_{AI}}]$*)). (*$\red{[\overline{alg.N_{CS}}/\overline{N_{CS}}]}$*)E };
+\end{lstlisting}
+
+\nb Potentially there could be name conflicts with \lstinline{alg}.
+
+\subsubsection{Example: \lstinline{Exp} and \lstinline{List[Int]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     data Exp from ExpAlg[E].E;
+            data List[A] from ListAlg[A, L].L;
+            build exp : Exp = add (lit 3) (lit 5);
+            build lst : List[Int] = cons 3 (cons 5 nil);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type Exp = { accept : forall E. ExpAlg[E] -> E };
+            type List[A] = { accept : forall L. ListAlg[A, L] -> L };
+            let exp = { accept = /\E -> \(alg : ExpAlg[E]) -> alg.add (alg.lit 3) (alg.lit 5) };
+            let lst = { accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons 3 (alg.cons 5 alg.nil) };
+\end{lstlisting}
+
+\subsection{Complicated Structures from Functions}
+
+\subsubsection{Template}
+
+\subsubsection{Example: \lstinline{Exp} and \lstinline{List[Int]}}
 
 \section{Instantiation}
 
