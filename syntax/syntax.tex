@@ -61,6 +61,7 @@ keywordstyle=\ttfamily\bfseries,
 \newcommand{\lemma}{\textbf{Lemma. } }
 \newcommand{\tab}{\ \ }
 \newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\nb}{\textit{NB. }}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -117,6 +118,8 @@ BEFORE:     sig (*$N_{AI}[\overline{T_{AI}}]$*) extends (*$\overline{N_{AI_2}[\o
 AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\&}(\overline{N_{AI_2}[\overline{T_{AI_2}}]})$*) & (*$\{\overline{N_{CS}:T_{CS}}\}$*);
 \end{lstlisting}
 
+\nb How to avoid multiple inheritance from the same interface? Throw an exception if two records with same labels are combined with an ``\&''?
+
 \subsubsection{Example: \lstinline{StatAlg[E, S]}}
 
 \begin{lstlisting}[numbers=none]
@@ -141,7 +144,7 @@ AFTER:      type StatAlg[E, S] = (ExpAlg[E]) & {
 BEFORE:     algebra (*$N_A$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      [(*$\overline{T_A}/\overline{T_{AI}}$*)] let (*$N_A$*) = (*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+AFTER:      let (*$N_A$*) = (*$\red{[\overline{T_A}/\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
 \end{lstlisting}
 
 \subsubsection{Example: \lstinline{EvalExpAlg}}
@@ -149,7 +152,7 @@ AFTER:      [(*$\overline{T_A}/\overline{T_{AI}}$*)] let (*$N_A$*) = (*$\{\overl
 \begin{lstlisting}[numbers=none]
 BEFORE:     type IEval = { eval : Int };
             algebra EvalExpAlg implements ExpAlg[IEval] where
-                eval@(lit x) = x,
+                eval@(lit x)(*$\ \ \ $*)= x,
                 eval@(add x y) = x.eval + y.eval;
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
@@ -164,13 +167,66 @@ AFTER:      type IEval = { eval : Int };
 
 \subsubsection{Template}
 
+\begin{lstlisting}[numbers=none]
+BEFORE:     algebra (*$N_A$*) extends (*$\overline{N_{A_2}}$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let (*$N_A$*) =  (*$\left((\red{,,})\left(\overline{N_{A_2}}\right)\right)$*) ,, (*$\red{[\overline{T_A}/\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+\end{lstlisting}
+
+\nb The same for multiple inheritance.
+
 \subsubsection{Example: \lstinline{PrintStatAlg}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     type IPrint = { print : String };
+            algebra PrintExpAlg implements ExpAlg[IPrint] where
+                print@(lit x)(*$\ \ \ $*)= "\{x}",
+                print@(add x y) = "\{x.print} + \{y.print}";
+            algebra PrintStatAlg extends PrintExpAlg implements StatAlg[IPrint, IPrint] where
+                print@(seq x y) = "\{x.print} || \{y.print}",
+                print@(asn x y) = "\{x} = \{y.print}";
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type IPrint = { print : String };
+            let PrintExpAlg = {
+                lit = \(x : Int) -> { print = "\{x}" },
+                add = \(x : IPrint) -> \(y : IPrint) -> { print = "\{x.print} + \{y.print}" }
+            };
+            let PrintStatAlg = PrintExpAlg ,, {
+                seq = \(x : IPrint) -> \(y : IPrint) -> { print = "\{x.print} || \{y.print}" },
+                asn = \(x : String) -> \(y : IPrint) -> { print = "\{x} = \{y.print}" }
+            };
+\end{lstlisting}
 
 \section{Datatype}
 
 \subsection{Template}
 
+\begin{lstlisting}[numbers=none]
+BEFORE:     data (*$N_D[\overline{T_D}]$*) from (*$N_{AI}[\overline{T_{AI}}].S$*);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type (*$N_D[\overline{T_D}]$*) = { accept : forall ((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$N_{AI}[\overline{T_{AI}}]$*) -> (*$S$*) };
+\end{lstlisting}
+
+\nb Usually $\overline{T_{AI}}\backslash\overline{T_D}=S$.
+
 \subsection{Example: \lstinline{List[A]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     sig ListAlg[A, L] where
+                nil(*$\ \ $*): L,
+                cons : A -> L -> L;
+            data List[A] from ListAlg[A, L].L;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type ListAlg[A, L] = {
+                nil(*$\ \ $*): L,
+                cons : A -> L -> L
+            };
+            type List[A] = { accept : forall L. ListAlg[A, L] -> L };
+\end{lstlisting}
 
 \section{Creating a Structure}
 
