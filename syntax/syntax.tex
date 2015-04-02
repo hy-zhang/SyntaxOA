@@ -85,7 +85,7 @@ keywordstyle=\ttfamily\bfseries,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Begin edit from here
 
-\section*{Notations}
+\section*{Notation}
 
 \begin{align*}
 N,\ T,\ \overline{N},\ \overline{T}:&\textrm{ name, type, list of names, list of types.}\\
@@ -176,6 +176,8 @@ AFTER:      type IEval = { eval : Int };
                 add = \(x : IEval) -> \(y : IEval) -> { eval = x.eval + y.eval }
             };
 \end{lstlisting}
+
+\nb Note that in F2J, it should be \lstinline{evalExpAlg}.
 
 \subsection{Inheritance $\surd$}
 
@@ -312,7 +314,56 @@ AFTER:      let myAdd = \(e1 : Exp) -> \(e2 : Exp) -> {
 
 \subsection{Template}
 
-\subsection{Example: }
+\begin{lstlisting}[numbers=none]
+BEFORE:     (*$N_S$*)[(*$\overline{[\overline{T}]}$*)]<(*$\overline{N_A}$*)>
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      (*$\red{(,,)}(\overline{N_S.accept[\overline{T}]\ N_A})$*)
+\end{lstlisting}
+
+\nb Furthermore, the types $[\overline{[\overline{T}]}]$ could potentially be omitted. But since $N_A$ could implement multiple interfaces, it's not easy to infer the types from context.
+
+Another approach is something like \lstinline{"let result : IEval & IPrint = exp<EvalExpAlg, PrintExpAlg>"}.
+
+\subsection{Example: \lstinline{ListAlg[A, L]} and \lstinline{List[A]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     type IEval = { eval : Int };
+            type IPrint = { print : String };
+            sig ListAlg[A, L] where
+                nil(*$\ \ $*): L,
+                cons : A -> L -> L;
+            algebra SumListAlg implements ListAlg[IEval, IEval] where
+                eval@(nil)(*$\ \ \ \ \ \ $*)= 0,
+                eval@(cons x y) = x.eval + y.eval;
+            algebra PrintListAlg implements ListAlg[IPrint, IPrint] where
+                print@(nil)(*$\ \ \ \ \ \ $*)= "",
+                print@(cons x y) = "\{x.print} \{y.print}";
+            data List[A] from ListAlg[A, L].L;
+            build lst : List[Int] = cons 1 (cons 2 (cons 3 nil));
+            lst[[IEval, IEval], [IPrint, IPrint]]<EvalListAlg, PrintListAlg>
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type IEval = { eval : Int };
+            type IPrint = { print : String };
+            type ListAlg[A, L] = {
+                nil(*$\ \ $*): L,
+                cons : A -> L -> L
+            };
+            let SumListAlg = {
+                nil(*$\ \ $*)= { eval = 0 },
+                cons = \(x : IEval) -> \(y : IEval) -> { eval = x.eval + y.eval }
+            };
+            let PrintListAlg = {
+                nil(*$\ \ $*)= { print = "" },
+                cons = \(x : IPrint) -> \(y : IPrint) -> { print = "\{x.print} \{y.print}" }
+            };
+            type List[A] = { accept : forall L. ListAlg[A, L] -> L };
+            let lst = {
+                accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons 1 (alg.cons 2 (alg.cons 3 alg.nil))
+            };
+            (lst.accept[IEval, IEval] SumListAlg) ,, (lst.accept[IPrint, IPrint] PrintListAlg)
+\end{lstlisting}
 
 % Transformation?
 

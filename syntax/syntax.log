@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2015.4.1)  2 APR 2015 17:31
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2015.4.1)  2 APR 2015 19:37
 entering extended mode
 **C:/Users/Haoyuan/Documents/GitHub/SyntaxOA/syntax/syntax.tex
 (C:/Users/Haoyuan/Documents/GitHub/SyntaxOA/syntax/syntax.tex
@@ -336,15 +336,10 @@ LaTeX Font Info:    Font shape `T1/fvm/b/n' will be
 
 {C:/CTEX/UserData/pdftex/config/pdftex.map{Unicode.sfd}{UGBK.sfd}}] [2]
 LaTeX Font Info:    Font shape `T1/fvm/bx/n' in size <12> not available
-(Font)              Font shape `T1/fvm/b/n' tried instead on input line 229.
+(Font)              Font shape `T1/fvm/b/n' tried instead on input line 231.
 LaTeX Font Info:    Font shape `T1/fvm/b/n' will be
-(Font)              scaled to size 10.20007pt on input line 229.
+(Font)              scaled to size 10.20007pt on input line 231.
  [3]
-Underfull \hbox (badness 10000) in paragraph at lines 303--304
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 305--306
 
  []
@@ -355,13 +350,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 307--308
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 309--310
+
+ []
+
+[4] 
 AED: lastpage setting LastPage
-[4] (C:\Users\Haoyuan\Documents\GitHub\SyntaxOA\syntax\syntax.aux) ) 
+[5] (C:\Users\Haoyuan\Documents\GitHub\SyntaxOA\syntax\syntax.aux) ) 
 Here is how much of TeX's memory you used:
- 4869 strings out of 495354
- 62055 string characters out of 3183860
+ 4873 strings out of 495354
+ 62118 string characters out of 3183860
  345824 words of memory out of 3000000
- 7934 multiletter control sequences out of 15000+200000
+ 7938 multiletter control sequences out of 15000+200000
  23970 words of font info for 67 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  32i,12n,43p,684b,1677s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -383,9 +383,9 @@ sfbx1440.pfb><C:/CTEX/MiKTeX/fonts/type1/public/cm-super/sfbx2074.pfb><C:/CTEX/
 MiKTeX/fonts/type1/public/cm-super/sfrm1000.pfb><C:/CTEX/MiKTeX/fonts/type1/pub
 lic/cm-super/sfrm1200.pfb><C:/CTEX/MiKTeX/fonts/type1/public/cm-super/sfti1000.
 pfb>
-Output written on syntax.pdf (4 pages, 246181 bytes).
+Output written on syntax.pdf (5 pages, 250542 bytes).
 PDF statistics:
- 101 PDF objects out of 1000 (max. 8388607)
+ 104 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

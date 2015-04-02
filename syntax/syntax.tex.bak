@@ -85,6 +85,15 @@ keywordstyle=\ttfamily\bfseries,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Begin edit from here
 
+\section*{Notation}
+
+\begin{align*}
+N,\ T,\ \overline{N},\ \overline{T}:&\textrm{ name, type, list of names, list of types.}\\
+\red{\&}(\overline{T}):&\textrm{ intersecting a list of types.}\\
+\red{(,,)}(\overline{E}):&\textrm{ merging a list of expressions.}\\
+\red{[}\blue{A}\red{/B]}E:&\textrm{ substituting }A\textrm{ for }B\textrm{ in expression }E.
+\end{align*}
+
 \section{Object Algebra Interface}
 
 \subsection{Inheritance $\times$}
@@ -263,7 +272,7 @@ AFTER:      type Exp = { accept : forall E. ExpAlg[E] -> E };
             let lst = { accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons 3 (alg.cons 5 alg.nil) };
 \end{lstlisting}
 
-\subsection{Complicated Structures from Functions}
+\subsection{Complicated Structures Created by Functions}
 
 \subsubsection{Template}
 
@@ -271,7 +280,9 @@ AFTER:      type Exp = { accept : forall E. ExpAlg[E] -> E };
 BEFORE:     build (*$N_S$*) (*$(\overline{x}$*) : (*$\overline{T_1\ne N_D[\overline{T}]})\ (\overline{y}$*) : (*$\overline{T_2=N_D[\overline{T}]})$*) : (*$N_D[\overline{T}]$*) = E;
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      let (*$N_S$*) = (*$\lambda$*)((*$\overline{x}$*) : (*$\overline{T_1}$*)). (*$\lambda$*)((*$\overline{y}$*) : (*$\overline{T_2}$*)). { accept = (*$\Lambda$*)((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$\lambda$*)(alg : (*$N_{AI}[\red{[}\blue{\overline{T}}\red{/\overline{T_D}]}\overline{T_{AI}}]$*)). (*$\red{[}\blue{\overline{alg.N_{CS}}}\red{/\overline{N_{CS}}]}\red{[}\blue{(\overline{y.accept[\overline{T_{AI}}\backslash\overline{T_D}]\ alg})}\red{/\overline{y}]}$*)E };
+AFTER:      let (*$N_S$*) = (*$\lambda$*)((*$\overline{x}$*) : (*$\overline{T_1}$*)). (*$\lambda$*)((*$\overline{y}$*) : (*$\overline{T_2}$*)). {
+                accept = (*$\Lambda$*)((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$\lambda$*)(alg : (*$N_{AI}[\red{[}\blue{\overline{T}}\red{/\overline{T_D}]}\overline{T_{AI}}]$*)). (*$\red{[}\blue{\overline{alg.N_{CS}}}\red{/\overline{N_{CS}}]}\red{[}\blue{(\overline{y.accept[\overline{T_{AI}}\backslash\overline{T_D}]\ alg})}\red{/\overline{y}]}$*)E
+            };
 \end{lstlisting}
 
 \subsubsection{Example: \lstinline{myAdd} and \lstinline{myCons}}
@@ -282,13 +293,31 @@ BEFORE:     build myAdd (e1 : Exp) (e2 : Exp) : Exp = add e1 e2;
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
 AFTER:      let myAdd = \(e1 : Exp) -> \(e2 : Exp) -> {
-                accept = /\E -> \(alg : ExpAlg[E]) -> alg.add e1 e2
+                accept = /\E -> \(alg : ExpAlg[E]) -> alg.add (e1.accept[E] alg) (e2.accept[E] alg)
+            };
+            let myCons = \(x : Int) -> \(xs : List[Int]) -> {
+                accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons x (xs.accept[L] alg)
             };
 \end{lstlisting}
+
+\nb Extension 1: What if there are BigLambdas in those functions?\\
+
+\nb Extension 2: Does it make sense if there are two different instantiations from one datatype in a function? Namely $N_D[\overline{T_1}]$ and $N_D[\overline{T_2}]$?\\
+
+\nb Extension 3: Recursive ones?\\
+
+\nb IMPORTANT: Why don't we generate \lstinline{"add : Exp -> Exp -> Exp"} and \lstinline{"cons : A -> List[A] -> List[A]"} automatically for global use? My intuition is that for these two examples it's easy; however there could be non-trivial ones. For instance, a new constructor for \lstinline{ListAlg} can be \lstinline{"f : L -> A"}, in which case some structures like \lstinline{"cons (f nil)}\lstinline{ nil"} also make sense, but how to design a template for \lstinline{"f : List[Int] -> Int"}? Instead it's easier to have \lstinline{"alg.cons (alg.f alg.nil)}\lstinline{ alg.nil"}.
 
 \section{Instantiation}
 
 \subsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     (*$N_S$*)[(*$\overline{T}$*)]<(*$\overline{N_A}$*)>
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      (*$N_S$*).accept[(*$\overline{T}$*)]
+\end{lstlisting}
 
 \subsection{Example: }
 
