@@ -1,0 +1,412 @@
+\documentclass{article}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,algorithm,algpseudocode}
+\usepackage{color,chngpage}
+\usepackage{extramarks,epsfig}
+\usepackage{fancyhdr,float}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{lastpage,listings}
+\usepackage{soul,setspace}
+\usepackage{wrapfig}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.85]{beramono}
+
+% Homework Specific Information. Change it to your own
+
+\newcommand{\thistitle}{Syntax: Object Algebras}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+\lstset{ %
+language=Java,                % choose the language of the code
+columns=flexible,
+lineskip=-1pt,
+basicstyle=\ttfamily\small,       % the size of the fonts that are used for the code
+numbers=none,                   % where to put the line-numbers
+numberstyle=\ttfamily\tiny,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,                   % adds a frame around the code
+morekeywords={sig,where,type,algebra,data,from,let,build,in},
+tabsize=2,                  % sets default tabsize to 2 spaces
+captionpos=none,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting; also try caption instead of title
+escapeinside={(*}{*)},          % if you want to add a comment within your code
+keywordstyle=\ttfamily\bfseries,
+% commentstyle=\color{Gray},
+% stringstyle=\color{Green}
+}
+
+% Setup the header and footer
+\pagestyle{fancy}
+\lhead{} \chead{\thistitle} \rhead{}
+\lfoot{} \cfoot{}
+\rfoot{Page\ \thepage\ of\ \protect\pageref{LastPage}}
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+
+\newcommand{\Answer}{\ \\\textbf{Answer:} }
+\newcommand{\todo}{\textbf{Proposition. } }
+\newcommand{\lemma}{\textbf{Lemma. } }
+\newcommand{\tab}{\ \ }
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\nb}{\textit{NB. }}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\huge\textmd{\bf\thistitle}}
+\date{}
+\author{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{spacing}{1.1}
+\maketitle \thispagestyle{empty}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin edit from here
+
+\section*{Notation}
+
+\begin{align*}
+N,\ T,\ \overline{N},\ \overline{T},\ E:&\textrm{ name, type, list of names, list of types, expression.}\\
+\red{\&}(\overline{T}):&\textrm{ intersecting a list of types.}\\
+\red{(,,)}(\overline{E}):&\textrm{ merging a list of expressions.}\\
+\red{[}\blue{A}\red{\ \mapsto B]}\ E:&\textrm{ substituting }A\textrm{ for }B\textrm{ in expression }E.\\
+\red{\Sigma}(...):&\textrm{ collect all fields of records, using copy and paste instead of intersection.}
+\end{align*}
+
+\section{Object Algebra Interface}
+
+\subsection{Inheritance $\times$}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     (*$\Gamma\ \vdash$*) sig (*$N_{AI}[\overline{T_{AI}}]$*) where (*$\overline{N_{CS}:T_{CS}}$*) in E
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+THEN:       (*$\Gamma\ \vdash$*) type (*$N_{AI}[\overline{T_{AI}}]$*) = {(*$\overline{N_{CS}:T_{CS}}$*)} in E
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      (*$\Gamma\ \vdash$*) (*$\red{[}\blue{N_{AI}[\overline{T}]}\red{\ \mapsto[\blue{\overline{T}}\red{\ \mapsto\overline{T_{AI}}}]\ \{\overline{N_{CS}:T_{CS}}\}]}$*) E
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{ExpAlg[E]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     sig ExpAlg[E] where
+                lit : Int -> E,
+                add : E -> E -> E;
+            ...
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+THEN:       type ExpAlg[E] = {
+                lit : Int -> E,
+                add : E -> E -> E
+            };
+            ...
+\end{lstlisting}
+
+\newpage
+
+\subsection{Inheritance $\surd$}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     (*$\Gamma\ \vdash$*) (*$N_{AI}[\overline{T_{AI}}]$*) extends (*$\overline{N_{AI_2}[\overline{T_{AI_2}}]}$*) where (*$\overline{N_{CS}:T_{CS}}$*) in E
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+THEN:       (*$\Gamma\ \vdash$*) type (*$N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\Sigma}(\overline{N_{AI_2}[\overline{T_{AI_2}}]},\overline{N_{CS}:T_{CS}})$*) in E
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      (*$\Gamma\ \vdash$*) (*$\red{[}\blue{N_{AI}[\overline{T}]}\red{\ \mapsto[\blue{\overline{T}}\red{\ \mapsto\overline{T_{AI}}}]\ \red{\Sigma}(\overline{N_{AI_2}[\overline{T_{AI_2}}]},\overline{N_{CS}:T_{CS}})]}$*) E
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{StatAlg[E, S]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     sig StatAlg[E, S] extends ExpAlg[E] where
+                seq : S -> S -> S,
+                asn : String -> E -> S;
+            ...
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+THEN:       type StatAlg[E, S] = {
+                lit : Int -> E,
+                add : E -> E -> E,
+                seq : S -> S -> S,
+                asn : String -> E -> S
+            };
+            ...
+\end{lstlisting}
+
+\subsection{Merge Algebra}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+THEN:       
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{ExpAlg[E]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     ...
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+THEN:       ...
+\end{lstlisting}
+
+\section{Object Algebra}
+
+\subsection{Inheritance $\times$}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     algebra (*$N_A$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let (*$N_A$*) = (*$\red{[}\blue{\overline{T_A}}\red{\ \mapsto\overline{T_{AI}}]}$*) (*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{EvalExpAlg}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     type IEval = { eval : Int };
+            algebra EvalExpAlg implements ExpAlg[IEval] where
+                eval@(lit x)(*$\ \ \ $*)= x,
+                eval@(add x y) = x.eval + y.eval;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type IEval = { eval : Int };
+            let EvalExpAlg = {
+                lit = \(x : Int) -> { eval = x },
+                add = \(x : IEval) -> \(y : IEval) -> { eval = x.eval + y.eval }
+            };
+\end{lstlisting}
+
+\nb Note that in F2J, it should be \lstinline{evalExpAlg}.
+
+\subsection{Inheritance $\surd$}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     algebra (*$N_A$*) extends (*$\overline{N_{A_2}}$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let (*$N_A$*) =  (*$\left((\red{,,})\left(\overline{N_{A_2}}\right)\right)$*) ,, (*$\red{[}\blue{\overline{T_A}}\red{/\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+\end{lstlisting}
+
+\nb The same for multiple inheritance.
+
+\subsubsection{Example: \lstinline{PrintStatAlg}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     type IPrint = { print : String };
+            algebra PrintExpAlg implements ExpAlg[IPrint] where
+                print@(lit x)(*$\ \ \ $*)= "\{x}",
+                print@(add x y) = "\{x.print} + \{y.print}";
+            algebra PrintStatAlg extends PrintExpAlg implements StatAlg[IPrint, IPrint] where
+                print@(seq x y) = "\{x.print} || \{y.print}",
+                print@(asn x y) = "\{x} = \{y.print}";
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type IPrint = { print : String };
+            let PrintExpAlg = {
+                lit = \(x : Int) -> { print = "\{x}" },
+                add = \(x : IPrint) -> \(y : IPrint) -> { print = "\{x.print} + \{y.print}" }
+            };
+            let PrintStatAlg = PrintExpAlg ,, {
+                seq = \(x : IPrint) -> \(y : IPrint) -> { print = "\{x.print} || \{y.print}" },
+                asn = \(x : String) -> \(y : IPrint) -> { print = "\{x} = \{y.print}" }
+            };
+\end{lstlisting}
+
+\section{Datatype}
+
+\subsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     data (*$N_D[\overline{T_D}]$*) from (*$N_{AI}[\overline{T_{AI}}].S$*);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type (*$N_D[\overline{T_D}]$*) = { accept : forall ((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$N_{AI}[\overline{T_{AI}}]$*) -> (*$S$*) };
+\end{lstlisting}
+
+\nb Usually $\overline{T_{AI}}\backslash\overline{T_D}=S$.
+
+\subsection{Example: \lstinline{List[A]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     sig ListAlg[A, L] where
+                nil(*$\ \ $*): L,
+                cons : A -> L -> L;
+            data List[A] from ListAlg[A, L].L;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type ListAlg[A, L] = {
+                nil(*$\ \ $*): L,
+                cons : A -> L -> L
+            };
+            type List[A] = { accept : forall L. ListAlg[A, L] -> L };
+\end{lstlisting}
+
+\section{Creating a Structure}
+
+\subsection{Simple Structures}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     build (*$N_S$*) : (*$N_D[\overline{T}]$*) = E;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let (*$N_S$*) = { accept = (*$\Lambda$*)((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$\lambda$*)(alg : (*$N_{AI}[\red{[}\blue{\overline{T}}\red{/\overline{T_D}]}\overline{T_{AI}}]$*)). (*$\red{[}\blue{\overline{alg.N_{CS}}}\red{/\overline{N_{CS}}]}$*)E };
+\end{lstlisting}
+
+\nb Potentially there could be name conflicts with \lstinline{alg}. Also names of functions and constructors could probably overlap.
+
+\subsubsection{Example: \lstinline{Exp} and \lstinline{List[Int]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     data Exp from ExpAlg[E].E;
+            data List[A] from ListAlg[A, L].L;
+            build exp : Exp = add (lit 3) (lit 5);
+            build lst : List[Int] = cons 3 (cons 5 nil);
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type Exp = { accept : forall E. ExpAlg[E] -> E };
+            type List[A] = { accept : forall L. ListAlg[A, L] -> L };
+            let exp = { accept = /\E -> \(alg : ExpAlg[E]) -> alg.add (alg.lit 3) (alg.lit 5) };
+            let lst = { accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons 3 (alg.cons 5 alg.nil) };
+\end{lstlisting}
+
+\subsection{Complicated Structures Created by Functions}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     build (*$N_S$*) (*$(\overline{x}$*) : (*$\overline{T_1\ne N_D[\overline{T}]})\ (\overline{y}$*) : (*$\overline{T_2=N_D[\overline{T}]})$*) : (*$N_D[\overline{T}]$*) = E;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let (*$N_S$*) = (*$\lambda$*)((*$\overline{x}$*) : (*$\overline{T_1}$*)). (*$\lambda$*)((*$\overline{y}$*) : (*$\overline{T_2}$*)). {
+                accept = (*$\Lambda$*)((*$\overline{T_{AI}}\backslash\overline{T_D}$*)). (*$\lambda$*)(alg : (*$N_{AI}[\red{[}\blue{\overline{T}}\red{/\overline{T_D}]}\overline{T_{AI}}]$*)). (*$\red{[}\blue{\overline{alg.N_{CS}}}\red{/\overline{N_{CS}}]}\red{[}\blue{(\overline{y.accept[\overline{T_{AI}}\backslash\overline{T_D}]\ alg})}\red{/\overline{y}]}$*)E
+            };
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{myAdd} and \lstinline{myCons}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     build myAdd (e1 : Exp) (e2 : Exp) : Exp = add e1 e2;
+            build myCons (x : Int) (xs : List[Int]) : List[Int] = cons x xs;
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      let myAdd = \(e1 : Exp) -> \(e2 : Exp) -> {
+                accept = /\E -> \(alg : ExpAlg[E]) -> alg.add (e1.accept[E] alg) (e2.accept[E] alg)
+            };
+            let myCons = \(x : Int) -> \(xs : List[Int]) -> {
+                accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons x (xs.accept[L] alg)
+            };
+\end{lstlisting}
+
+\nb Extension 1: What if there are BigLambdas in those functions?\\
+
+\nb Extension 2: Does it make sense if there are two different instantiations from one datatype in a function? Namely $N_D[\overline{T_1}]$ and $N_D[\overline{T_2}]$?\\
+
+\nb Extension 3: Recursive ones?\\
+
+\nb IMPORTANT: Why don't we generate \lstinline{"add : Exp -> Exp -> Exp"} and \lstinline{"cons : A -> List[A] -> List[A]"} automatically for global use? My intuition is that for these two examples it's easy; however there could be non-trivial ones. For instance, a new constructor for \lstinline{ListAlg} can be \lstinline{"f : L -> A"}, in which case some structures like \lstinline{"cons (f nil)}\lstinline{ nil"} also make sense, but how to design a template for \lstinline{"f : List[Int] -> Int"}? Instead it's easier to have \lstinline{"alg.cons (alg.f alg.nil)}\lstinline{ alg.nil"}.
+
+\section{Instantiation}
+
+\subsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     (*$N_S$*)[(*$\overline{[\overline{T}]}$*)]<(*$\overline{N_A}$*)>
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      (*$\red{(,,)}(\overline{N_S.accept[\overline{T}]\ N_A})$*)
+\end{lstlisting}
+
+\nb Furthermore, the types $[\overline{[\overline{T}]}]$ could potentially be omitted. But since $N_A$ could implement multiple interfaces, it's not easy to infer the types from context.
+
+Another approach is something like \lstinline{"let result : IEval & IPrint = exp<EvalExpAlg, PrintExpAlg>"}.
+
+\subsection{Example: \lstinline{ListAlg[A, L]} and \lstinline{List[A]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     type IEval = { eval : Int };
+            type IPrint = { print : String };
+            sig ListAlg[A, L] where
+                nil(*$\ \ $*): L,
+                cons : A -> L -> L;
+            algebra SumListAlg implements ListAlg[IEval, IEval] where
+                eval@(nil)(*$\ \ \ \ \ \ $*)= 0,
+                eval@(cons x y) = x.eval + y.eval;
+            algebra PrintListAlg implements ListAlg[IPrint, IPrint] where
+                print@(nil)(*$\ \ \ \ \ \ $*)= "",
+                print@(cons x y) = "\{x.print} \{y.print}";
+            data List[A] from ListAlg[A, L].L;
+            build lst : List[Int] = cons 1 (cons 2 (cons 3 nil));
+            lst[[IEval, IEval], [IPrint, IPrint]]<EvalListAlg, PrintListAlg>
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type IEval = { eval : Int };
+            type IPrint = { print : String };
+            type ListAlg[A, L] = {
+                nil(*$\ \ $*): L,
+                cons : A -> L -> L
+            };
+            let SumListAlg = {
+                nil(*$\ \ $*)= { eval = 0 },
+                cons = \(x : IEval) -> \(y : IEval) -> { eval = x.eval + y.eval }
+            };
+            let PrintListAlg = {
+                nil(*$\ \ $*)= { print = "" },
+                cons = \(x : IPrint) -> \(y : IPrint) -> { print = "\{x.print} \{y.print}" }
+            };
+            type List[A] = { accept : forall L. ListAlg[A, L] -> L };
+            let lst = {
+                accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons 1 (alg.cons 2 (alg.cons 3 alg.nil))
+            };
+            (lst.accept[IEval, IEval] SumListAlg) ,, (lst.accept[IPrint, IPrint] PrintListAlg)
+\end{lstlisting}
+
+% Transformation?
+
+% End edit to here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{spacing}
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
