@@ -37,7 +37,7 @@ showspaces=false,               % show spaces adding particular underscores
 showstringspaces=false,         % underline spaces within strings
 showtabs=false,                 % show tabs within strings adding particular underscores
 frame=single,                   % adds a frame around the code
-morekeywords={sig,where,type,algebra,data,from,let,build},
+morekeywords={sig,where,type,algebra,data,from,let,build,in},
 tabsize=2,                  % sets default tabsize to 2 spaces
 captionpos=none,                   % sets the caption-position to bottom
 breaklines=true,                % sets automatic line breaking
@@ -88,10 +88,11 @@ keywordstyle=\ttfamily\bfseries,
 \section*{Notation}
 
 \begin{align*}
-N,\ T,\ \overline{N},\ \overline{T}:&\textrm{ name, type, list of names, list of types.}\\
+N,\ T,\ \overline{N},\ \overline{T},\ E:&\textrm{ name, type, list of names, list of types, expression.}\\
 \red{\&}(\overline{T}):&\textrm{ intersecting a list of types.}\\
 \red{(,,)}(\overline{E}):&\textrm{ merging a list of expressions.}\\
-\red{[}\blue{A}\red{/B]}E:&\textrm{ substituting }A\textrm{ for }B\textrm{ in expression }E.
+\red{[}\blue{A}\red{\ \mapsto B]}\ E:&\textrm{ substituting }A\textrm{ for }B\textrm{ in expression }E.\\
+\red{\Sigma}(...):&\textrm{ collect all fields of records, using copy and paste instead of intersection.}
 \end{align*}
 
 \section{Object Algebra Interface}
@@ -101,10 +102,13 @@ N,\ T,\ \overline{N},\ \overline{T}:&\textrm{ name, type, list of names, list of
 \subsubsection{Template}
 
 \begin{lstlisting}[numbers=none]
-BEFORE:     sig (*$N_{AI}[\overline{T_{AI}}]$*) where (*$\overline{N_{CS}:T_{CS}}$*);
+BEFORE:     (*$\Gamma\ \vdash$*) sig (*$N_{AI}[\overline{T_{AI}}]$*) where (*$\overline{N_{CS}:T_{CS}}$*) in E
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = {(*$\overline{N_{CS}:T_{CS}}$*)};
+THEN:       (*$\Gamma\ \vdash$*) type (*$N_{AI}[\overline{T_{AI}}]$*) = {(*$\overline{N_{CS}:T_{CS}}$*)} in E
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      (*$\Gamma\ \vdash$*) (*$\red{[}\blue{N_{AI}[\overline{T}]}\red{\ \mapsto[\blue{\overline{T}}\red{\ \mapsto\overline{T_{AI}}}]\ \{\overline{N_{CS}:T_{CS}}\}]}$*) E
 \end{lstlisting}
 
 \subsubsection{Example: \lstinline{ExpAlg[E]}}
@@ -113,26 +117,31 @@ AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = {(*$\overline{N_{CS}:T_{CS}}$
 BEFORE:     sig ExpAlg[E] where
                 lit : Int -> E,
                 add : E -> E -> E;
+            ...
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      type ExpAlg[E] = {
+THEN:       type ExpAlg[E] = {
                 lit : Int -> E,
                 add : E -> E -> E
             };
+            ...
 \end{lstlisting}
+
+\newpage
 
 \subsection{Inheritance $\surd$}
 
 \subsubsection{Template}
 
 \begin{lstlisting}[numbers=none]
-BEFORE:     sig (*$N_{AI}[\overline{T_{AI}}]$*) extends (*$\overline{N_{AI_2}[\overline{T_{AI_2}}]}$*) where (*$\overline{N_{CS}:T_{CS}}$*);
+BEFORE:     (*$\Gamma\ \vdash$*) (*$N_{AI}[\overline{T_{AI}}]$*) extends (*$\overline{N_{AI_2}[\overline{T_{AI_2}}]}$*) where (*$\overline{N_{CS}:T_{CS}}$*) in E
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\&}(\overline{N_{AI_2}[\overline{T_{AI_2}}]})$*) & (*$\{\overline{N_{CS}:T_{CS}}\}$*);
+THEN:       (*$\Gamma\ \vdash$*) type (*$N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\Sigma}(\overline{N_{AI_2}[\overline{T_{AI_2}}]},\overline{N_{CS}:T_{CS}})$*) in E
 \end{lstlisting}
-
-\nb How to avoid multiple inheritance from the same interface? Throw an exception if two records with same labels are combined with an ``\&''?
+\begin{lstlisting}[numbers=none]
+AFTER:      (*$\Gamma\ \vdash$*) (*$\red{[}\blue{N_{AI}[\overline{T}]}\red{\ \mapsto[\blue{\overline{T}}\red{\ \mapsto\overline{T_{AI}}}]\ \red{\Sigma}(\overline{N_{AI_2}[\overline{T_{AI_2}}]},\overline{N_{CS}:T_{CS}})]}$*) E
+\end{lstlisting}
 
 \subsubsection{Example: \lstinline{StatAlg[E, S]}}
 
@@ -140,12 +149,39 @@ AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\&}(\overline{N_{AI_2
 BEFORE:     sig StatAlg[E, S] extends ExpAlg[E] where
                 seq : S -> S -> S,
                 asn : String -> E -> S;
+            ...
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      type StatAlg[E, S] = (ExpAlg[E]) & {
+THEN:       type StatAlg[E, S] = {
+                lit : Int -> E,
+                add : E -> E -> E,
                 seq : S -> S -> S,
                 asn : String -> E -> S
             };
+            ...
+\end{lstlisting}
+
+\subsection{Merge Algebra}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+THEN:       
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{ExpAlg[E]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     ...
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+THEN:       ...
 \end{lstlisting}
 
 \section{Object Algebra}
@@ -158,7 +194,7 @@ AFTER:      type StatAlg[E, S] = (ExpAlg[E]) & {
 BEFORE:     algebra (*$N_A$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      let (*$N_A$*) = (*$\red{[}\blue{\overline{T_A}}/\red{\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+AFTER:      let (*$N_A$*) = (*$\red{[}\blue{\overline{T_A}}\red{\ \mapsto\overline{T_{AI}}]}$*) (*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
 \end{lstlisting}
 
 \subsubsection{Example: \lstinline{EvalExpAlg}}

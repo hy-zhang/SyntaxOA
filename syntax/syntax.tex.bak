@@ -37,7 +37,7 @@ showspaces=false,               % show spaces adding particular underscores
 showstringspaces=false,         % underline spaces within strings
 showtabs=false,                 % show tabs within strings adding particular underscores
 frame=single,                   % adds a frame around the code
-morekeywords={sig,where,type,algebra,data,from,let,build},
+morekeywords={sig,where,type,algebra,data,from,let,build,in},
 tabsize=2,                  % sets default tabsize to 2 spaces
 captionpos=none,                   % sets the caption-position to bottom
 breaklines=true,                % sets automatic line breaking
@@ -88,10 +88,11 @@ keywordstyle=\ttfamily\bfseries,
 \section*{Notation}
 
 \begin{align*}
-N,\ T,\ \overline{N},\ \overline{T}:&\textrm{ name, type, list of names, list of types.}\\
+N,\ T,\ \overline{N},\ \overline{T},\ E:&\textrm{ name, type, list of names, list of types, expression.}\\
 \red{\&}(\overline{T}):&\textrm{ intersecting a list of types.}\\
 \red{(,,)}(\overline{E}):&\textrm{ merging a list of expressions.}\\
-\red{[}\blue{A}\red{/B]}E:&\textrm{ substituting }A\textrm{ for }B\textrm{ in expression }E.
+\red{[}\blue{A}\red{\ \mapsto B]}\ E:&\textrm{ substituting }A\textrm{ for }B\textrm{ in expression }E.\\
+\bigvee(a1,a2):&\textrm{ put the code together.}
 \end{align*}
 
 \section{Object Algebra Interface}
@@ -101,10 +102,13 @@ N,\ T,\ \overline{N},\ \overline{T}:&\textrm{ name, type, list of names, list of
 \subsubsection{Template}
 
 \begin{lstlisting}[numbers=none]
-BEFORE:     sig (*$N_{AI}[\overline{T_{AI}}]$*) where (*$\overline{N_{CS}:T_{CS}}$*);
+BEFORE:     sig (*$N_{AI}[\overline{T_{AI}}]$*) where (*$\overline{N_{CS}:T_{CS}}$*) in E
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = {(*$\overline{N_{CS}:T_{CS}}$*)};
+THEN:       type (*$N_{AI}[\overline{T_{AI}}]$*) = {(*$\overline{N_{CS}:T_{CS}}$*)} in E
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      (*$\red{[}\blue{N_{AI}}\red{\ \mapsto\forall\overline{T_{AI}}.\ \{\overline{N_{CS}:T_{CS}}\}]}$*) E
 \end{lstlisting}
 
 \subsubsection{Example: \lstinline{ExpAlg[E]}}
@@ -113,12 +117,14 @@ AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = {(*$\overline{N_{CS}:T_{CS}}$
 BEFORE:     sig ExpAlg[E] where
                 lit : Int -> E,
                 add : E -> E -> E;
+            ...
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      type ExpAlg[E] = {
+THEN:       type ExpAlg[E] = {
                 lit : Int -> E,
                 add : E -> E -> E
             };
+            ...
 \end{lstlisting}
 
 \subsection{Inheritance $\surd$}
@@ -126,13 +132,16 @@ AFTER:      type ExpAlg[E] = {
 \subsubsection{Template}
 
 \begin{lstlisting}[numbers=none]
-BEFORE:     sig (*$N_{AI}[\overline{T_{AI}}]$*) extends (*$\overline{N_{AI_2}[\overline{T_{AI_2}}]}$*) where (*$\overline{N_{CS}:T_{CS}}$*);
+BEFORE:     sig (*$N_{AI}[\overline{T_{AI}}]$*) extends (*$\overline{N_{AI_2}[\overline{T_{AI_2}}]}$*) where (*$\overline{N_{CS}:T_{CS}}$*) in E
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\&}(\overline{N_{AI_2}[\overline{T_{AI_2}}]})$*) & (*$\{\overline{N_{CS}:T_{CS}}\}$*);
+THEN:       ???
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      ???
 \end{lstlisting}
 
-\nb How to avoid multiple inheritance from the same interface? Throw an exception if two records with same labels are combined with an ``\&''?
+\nb Subtyping here is incorrect with intersection types. Should use ``copy \& paste'' instead.
 
 \subsubsection{Example: \lstinline{StatAlg[E, S]}}
 
@@ -140,12 +149,46 @@ AFTER:      type (*$N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\&}(\overline{N_{AI_2
 BEFORE:     sig StatAlg[E, S] extends ExpAlg[E] where
                 seq : S -> S -> S,
                 asn : String -> E -> S;
+            ...
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      type StatAlg[E, S] = (ExpAlg[E]) & {
+THEN:       type StatAlg[E, S] = {
+                lit : Int -> E,
+                add : E -> E -> E,
                 seq : S -> S -> S,
                 asn : String -> E -> S
             };
+            ...
+\end{lstlisting}
+
+\subsection{Merge Algebra}
+
+\subsubsection{Template}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     sig (*$N_{AI}[\overline{T_{AI}}]$*) where (*$\overline{N_{CS}:T_{CS}}$*) in E
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+THEN:       type (*$N_{AI}[\overline{T_{AI}}]$*) = {(*$\overline{N_{CS}:T_{CS}}$*)} in E
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      (*$\red{[}\blue{N_{AI}}\red{\ \mapsto\forall\overline{T_{AI}}.\ \{\overline{N_{CS}:T_{CS}}\}]}$*) E
+\end{lstlisting}
+
+\subsubsection{Example: \lstinline{ExpAlg[E]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     sig ExpAlg[E] where
+                lit : Int -> E,
+                add : E -> E -> E;
+            ...
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+THEN:       type ExpAlg[E] = {
+                lit : Int -> E,
+                add : E -> E -> E
+            };
+            ...
 \end{lstlisting}
 
 \section{Object Algebra}
@@ -158,7 +201,7 @@ AFTER:      type StatAlg[E, S] = (ExpAlg[E]) & {
 BEFORE:     algebra (*$N_A$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      let (*$N_A$*) = (*$\red{[}\blue{\overline{T_A}}/\red{\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+AFTER:      let (*$N_A$*) = (*$\red{[}\blue{\overline{T_A}}\red{\ \mapsto\overline{T_{AI}}]}$*) (*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
 \end{lstlisting}
 
 \subsubsection{Example: \lstinline{EvalExpAlg}}
@@ -176,6 +219,8 @@ AFTER:      type IEval = { eval : Int };
                 add = \(x : IEval) -> \(y : IEval) -> { eval = x.eval + y.eval }
             };
 \end{lstlisting}
+
+\nb Note that in F2J, it should be \lstinline{evalExpAlg}.
 
 \subsection{Inheritance $\surd$}
 
@@ -313,13 +358,55 @@ AFTER:      let myAdd = \(e1 : Exp) -> \(e2 : Exp) -> {
 \subsection{Template}
 
 \begin{lstlisting}[numbers=none]
-BEFORE:     (*$N_S$*)[(*$\overline{T}$*)]<(*$\overline{N_A}$*)>
+BEFORE:     (*$N_S$*)[(*$\overline{[\overline{T}]}$*)]<(*$\overline{N_A}$*)>
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      (*$N_S$*).accept[(*$\overline{T}$*)]
+AFTER:      (*$\red{(,,)}(\overline{N_S.accept[\overline{T}]\ N_A})$*)
 \end{lstlisting}
 
-\subsection{Example: }
+\nb Furthermore, the types $[\overline{[\overline{T}]}]$ could potentially be omitted. But since $N_A$ could implement multiple interfaces, it's not easy to infer the types from context.
+
+Another approach is something like \lstinline{"let result : IEval & IPrint = exp<EvalExpAlg, PrintExpAlg>"}.
+
+\subsection{Example: \lstinline{ListAlg[A, L]} and \lstinline{List[A]}}
+
+\begin{lstlisting}[numbers=none]
+BEFORE:     type IEval = { eval : Int };
+            type IPrint = { print : String };
+            sig ListAlg[A, L] where
+                nil(*$\ \ $*): L,
+                cons : A -> L -> L;
+            algebra SumListAlg implements ListAlg[IEval, IEval] where
+                eval@(nil)(*$\ \ \ \ \ \ $*)= 0,
+                eval@(cons x y) = x.eval + y.eval;
+            algebra PrintListAlg implements ListAlg[IPrint, IPrint] where
+                print@(nil)(*$\ \ \ \ \ \ $*)= "",
+                print@(cons x y) = "\{x.print} \{y.print}";
+            data List[A] from ListAlg[A, L].L;
+            build lst : List[Int] = cons 1 (cons 2 (cons 3 nil));
+            lst[[IEval, IEval], [IPrint, IPrint]]<EvalListAlg, PrintListAlg>
+\end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      type IEval = { eval : Int };
+            type IPrint = { print : String };
+            type ListAlg[A, L] = {
+                nil(*$\ \ $*): L,
+                cons : A -> L -> L
+            };
+            let SumListAlg = {
+                nil(*$\ \ $*)= { eval = 0 },
+                cons = \(x : IEval) -> \(y : IEval) -> { eval = x.eval + y.eval }
+            };
+            let PrintListAlg = {
+                nil(*$\ \ $*)= { print = "" },
+                cons = \(x : IPrint) -> \(y : IPrint) -> { print = "\{x.print} \{y.print}" }
+            };
+            type List[A] = { accept : forall L. ListAlg[A, L] -> L };
+            let lst = {
+                accept = /\L -> \(alg : ListAlg[Int, L]) -> alg.cons 1 (alg.cons 2 (alg.cons 3 alg.nil))
+            };
+            (lst.accept[IEval, IEval] SumListAlg) ,, (lst.accept[IPrint, IPrint] PrintListAlg)
+\end{lstlisting}
 
 % Transformation?
 
