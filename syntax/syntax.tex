@@ -152,6 +152,8 @@ AFTER:      (*$\Gamma,\ N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\Sigma}(\overline
             (*$\red{[}\blue{N_{AI}[\overline{T}]}\red{\ \mapsto[\blue{\overline{T}}\red{\ \mapsto\overline{T_{AI}}}]\ \red{\Sigma}(\overline{N_{AI_2}[\overline{T_{AI_2}}]},\overline{N_{CS}:T_{CS}})]}$*) E
 \end{lstlisting}
 
+\nb Need to be updated.
+
 \subsubsection{Example: \lstinline{StatAlg[E, S]}}
 
 \begin{lstlisting}[numbers=none]
@@ -177,11 +179,16 @@ THEN:       type StatAlg[E, S] = {
 \subsubsection{Template}
 
 \begin{lstlisting}[numbers=none]
-BEFORE:     algebra (*$N_A$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*);
+BEFORE:     algebra (*$N_A$*) implements (*$\overline{N_{AI}[\overline{T_A}]}$*) where (*$\overline{t@(N_{CS}\ \overline{x})=E}$*) in F
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      let (*$N_A$*) = (*$\red{[}\blue{\overline{T_A}}\red{\ \mapsto\overline{T_{AI}}]}$*) (*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
+THEN:       let (*$N_A$*) = (*$\red{[}\blue{\overline{T_A}}\red{\ \mapsto\overline{T_{AI}}]}$*) (*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*) in F
 \end{lstlisting}
+\begin{lstlisting}[numbers=none]
+AFTER:      ((*$\lambda$*)((*$N_A$*) : ???). F) (*$\red{[}\blue{\overline{T_A}}\red{\ \mapsto\overline{T_{AI}}]}$*) (*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*)
+\end{lstlisting}
+
+\nb ???
 
 \subsubsection{Example: \lstinline{EvalExpAlg}}
 
@@ -212,7 +219,7 @@ BEFORE:     algebra (*$N_A$*) extends (*$\overline{N_{A_2}}$*) implements (*$\ov
 AFTER:      let (*$N_A$*) =  (*$\left((\red{,,})\left(\overline{N_{A_2}}\right)\right)$*) ,, (*$\red{[}\blue{\overline{T_A}}\red{/\overline{T_{AI}}]}$*)(*$\{\overline{N_{CS}=\lambda(\overline{x}:\overline{T_{CS}}).\ \{t=E\}}\}$*);
 \end{lstlisting}
 
-\nb The same for multiple inheritance.
+\nb Need to be updated.
 
 \subsubsection{Example: \lstinline{PrintStatAlg}}
 
