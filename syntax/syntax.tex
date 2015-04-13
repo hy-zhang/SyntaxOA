@@ -108,7 +108,11 @@ BEFORE:     (*$\Gamma\ \vdash$*) sig (*$N_{AI}[\overline{T_{AI}}]$*) where (*$\o
 THEN:       (*$\Gamma\ \vdash$*) type (*$N_{AI}[\overline{T_{AI}}]$*) = {(*$\overline{N_{CS}:T_{CS}}$*)} in E
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      (*$\Gamma\ \vdash$*) (*$\red{[}\blue{N_{AI}[\overline{T}]}\red{\ \mapsto[\blue{\overline{T}}\red{\ \mapsto\overline{T_{AI}}}]\ \{\overline{N_{CS}:T_{CS}}\}]}$*) E
+AFTER:      (*$\Gamma,\ N_{AI}[\overline{T_{AI}}]$*) = (*$\{\overline{N_{CS}:T_{CS}}\}\ \vdash$*)
+            (*$\red{[}\blue{N_{AI}[\overline{T}]}\red{\ \mapsto[\blue{\overline{T}}\red{\ \mapsto\overline{T_{AI}}}]\ \{\overline{N_{CS}:T_{CS}}\}]}$*)
+            ((*$\lambda$*)(merge(*$N_{AI}$*) : forall (*$\overline{T_{AI}^{(1)}}.$*) forall (*$\overline{T_{AI}^{(2)}}.\ N_{AI}[\overline{T_{AI}^{(1)}}]$*) -> (*$N_{AI}[\overline{T_{AI}^{(2)}}]$*) -> (*$N_{AI}[\overline{T_{AI}^{(1)\&(2)}}]$*)). E)
+                (*$\Lambda\overline{T_{AI}^{(1)}}$*). (*$\Lambda\overline{T_{AI}^{(2)}}$*). (*$\lambda$*)(alg1 : (*$\overline{T_{AI}^{(1)}}$*)). (*$\lambda$*)(alg2 : (*$\overline{T_{AI}^{(2)}}$*)).
+                    (*$\left\{\overline{N_{CS}\ =\ \lambda(\overline{x}:\overline{T_{CS}^{(1)\&(2)}}).\ alg1.N_{CS}\ \overline{x}\ ,,\ alg2.N_{CS}\ \overline{x}}\right\}$*)
 \end{lstlisting}
 
 \subsubsection{Example: \lstinline{ExpAlg[E]}}
@@ -123,6 +127,10 @@ BEFORE:     sig ExpAlg[E] where
 THEN:       type ExpAlg[E] = {
                 lit : Int -> E,
                 add : E -> E -> E
+            };
+            let mergeExpAlg [E1, E2] (alg1 : ExpAlg[E1]) (alg2 : ExpAlg[E2]) = {
+                lit = \(x1 : Int) -> alg1.lit x1 ,, alg2.lit x1,
+                add = \(x1 : E1 & E2) -> \(x2 : E1 & E2) -> alg1.add x1 x2 ,, alg2.add x1 x2
             };
             ...
 \end{lstlisting}
@@ -140,7 +148,8 @@ BEFORE:     (*$\Gamma\ \vdash$*) (*$N_{AI}[\overline{T_{AI}}]$*) extends (*$\ove
 THEN:       (*$\Gamma\ \vdash$*) type (*$N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\Sigma}(\overline{N_{AI_2}[\overline{T_{AI_2}}]},\overline{N_{CS}:T_{CS}})$*) in E
 \end{lstlisting}
 \begin{lstlisting}[numbers=none]
-AFTER:      (*$\Gamma\ \vdash$*) (*$\red{[}\blue{N_{AI}[\overline{T}]}\red{\ \mapsto[\blue{\overline{T}}\red{\ \mapsto\overline{T_{AI}}}]\ \red{\Sigma}(\overline{N_{AI_2}[\overline{T_{AI_2}}]},\overline{N_{CS}:T_{CS}})]}$*) E
+AFTER:      (*$\Gamma,\ N_{AI}[\overline{T_{AI}}]$*) = (*$\red{\Sigma}(\overline{N_{AI_2}[\overline{T_{AI_2}}]},\overline{N_{CS}:T_{CS}})\ \vdash$*)
+            (*$\red{[}\blue{N_{AI}[\overline{T}]}\red{\ \mapsto[\blue{\overline{T}}\red{\ \mapsto\overline{T_{AI}}}]\ \red{\Sigma}(\overline{N_{AI_2}[\overline{T_{AI_2}}]},\overline{N_{CS}:T_{CS}})]}$*) E
 \end{lstlisting}
 
 \subsubsection{Example: \lstinline{StatAlg[E, S]}}
@@ -159,29 +168,6 @@ THEN:       type StatAlg[E, S] = {
                 asn : String -> E -> S
             };
             ...
-\end{lstlisting}
-
-\subsection{Merge Algebra}
-
-\subsubsection{Template}
-
-\begin{lstlisting}[numbers=none]
-BEFORE:     
-\end{lstlisting}
-\begin{lstlisting}[numbers=none]
-THEN:       
-\end{lstlisting}
-\begin{lstlisting}[numbers=none]
-AFTER:      
-\end{lstlisting}
-
-\subsubsection{Example: \lstinline{ExpAlg[E]}}
-
-\begin{lstlisting}[numbers=none]
-BEFORE:     ...
-\end{lstlisting}
-\begin{lstlisting}[numbers=none]
-THEN:       ...
 \end{lstlisting}
 
 \section{Object Algebra}
