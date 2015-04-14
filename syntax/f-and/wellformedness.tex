@@ -1,0 +1,61 @@
+\newcommand{\judgeewf}[2]{#1 \; {\turns} \; #2}
+
+\newcommand{\rulelabelewf}{\bm{wf}}
+
+\newcommand{\rulelabelewfvar}{\rulelabelewf\text{var}}
+\newcommand{\rulelabelewftop}{\rulelabelewf\text{top}}
+\newcommand{\rulelabelewffun}{\rulelabelewf\text{fun}}
+\newcommand{\rulelabelewfforall}{\rulelabelewf\text{forall}}
+\newcommand{\rulelabelewfand}{\rulelabelewf{\text{and}}}
+\newcommand{\rulelabelewfrec}{\rulelabelewf\text{rec}}
+
+\newcommand{\ruleewf}{
+\inferrule* [right=$\rulelabelewf$]
+  {\ftv \tau \in \gamma}
+  {\judgeewf \gamma \tau}
+}
+
+\newcommand{\rulelabeltwf}{\rulelabelt\text{wf}}
+\newcommand{\ruletwf}{
+\inferrule* [right=$\rulelabeltwf$]
+  {\ftv T \in \Gamma}
+  {\judgetwf \Gamma T}
+}
+
+% Expanded form of well-formedness
+
+\newcommand{\ruleewfvar}{
+\inferrule* [right=$\rulelabelewfvar$]
+  {\alpha \in \gamma}
+  {\judgeewf \gamma \alpha}
+}
+
+\newcommand{\ruleewftop}{
+\inferrule* [right=$\rulelabelewftop$]
+  { }
+  {\judgeewf \gamma \top}
+}
+
+\newcommand{\ruleewffun}{
+\inferrule* [right=$\rulelabelewffun$]
+  {\judgeewf \gamma {\tau_1} \\ \judgeewf \Gamma {\tau_2}}
+  {\judgeewf \gamma {\tau_1 \to \tau_2}}
+}
+
+\newcommand{\ruleewfforall}{
+\inferrule* [right=$\rulelabelewfforall$]
+  {\judgeewf {\gamma, \alpha} \tau}
+  {\judgeewf \gamma {\for \alpha \tau}}
+}
+
+\newcommand{\ruleewfand}{
+\inferrule* [right=$\rulelabelewfand$]
+  {\judgeewf \gamma {\tau_1} \\ \judgeewf \Gamma {\tau_2} \\ \tau_1 \orthog \tau_2}
+  {\judgeewf \gamma {\tau_1 \andop \tau_2}}
+}
+
+\newcommand{\ruleewfrec}{
+\inferrule* [right=$\rulelabelewfrec$]
+  {\judgeewf \gamma \tau}
+  {\judgeewf \gamma {\recty l \tau}}
+}

@@ -1,0 +1,14 @@
+\newcommand{\kwsig}{\keyword{sig}}
+\newcommand{\kwextends}{\keyword{extends}}
+\newcommand{\kwalgebra}{\keyword{algebra}}
+\newcommand{\kwimplements}{\keyword{implements}}
+
+\newcommand{\sig}[5]{
+  \kwsig \; #1 \; \texttt{[} \overline{#2} \texttt{]} \;
+  \kwwhere \; \overline{#3 : #4} \; \kwin \; #5
+}
+\newcommand{\sigextends}[7]{
+  \kwsig \; #1 \; \texttt{[} \overline{#2} \texttt{]} \;
+  \kwextends \; \overline{#3 \; \texttt{[} \overline{#4} \texttt{]}} \;
+  \kwwhere \; \overline{#5 : #6} \; \kwin \; #7
+}

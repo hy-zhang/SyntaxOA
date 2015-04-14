@@ -1,0 +1,185 @@
+\documentclass[a4paper]{article}
+
+\input{preamble.tex}
+
+\newcommand{\authornote}[3]{{\color{#2} {\sc #1}: #3}}
+\newcommand\bruno[1]{\authornote{bruno}{red}{#1}}
+\newcommand\george[1]{\authornote{george}{blue}{#1}}
+\newcommand\haoyuan[1]{\authornote{bruno}{green}{#1}}
+
+% Define macros immediately before the \begin{document} command
+\input{macros/common_pl_macros.tex}
+
+\input{f-and/base.tex}
+\input{f-and/orthogonality.tex}
+\input{f-and/wellformedness.tex}
+\input{f-and/subtyping.tex}
+\input{f-and/select.tex}
+\input{f-and/restrict.tex}
+\input{f-and/typing.tex}
+
+\input{algebra/syntax.tex}
+
+\begin{document}
+
+\begin{figure}
+  \begin{displaymath}
+    \begin{array}{l}
+      \begin{array}{llrl}
+        \text{Types}
+        & T & \Coloneqq & \alpha \mid \top \mid \tau_1 \to \tau_2 \mid \for \alpha \tau \mid \tau_1 \andop \tau_2 \mid \recty l \tau \\
+        \text{Expressions}
+        & E & \Coloneqq & x \mid \top \mid \lam x \tau e \mid \app {e_1} {e_2} \mid \blam \alpha e \mid \tapp e \tau \mid e_1 \mergeop e_2 \mid \reccon l e \mid e.l \mid e \restrictop l \\
+        &   & \mid & \letexpr x e e \\
+        &   & \mid & \sig x x x \tau e \\
+        &   & \mid & \sigextends x x x x x \tau e \\
+        \text{Contexts} & \Gamma & \Coloneqq & \epsilon \mid \gamma, \alpha \mid \gamma, x \hast \tau \\
+        \text{Labels} & l
+      \end{array}
+    \end{array}
+  \end{displaymath}
+
+  \caption{Source syntax.}
+\end{figure}
+
+\begin{figure}
+  \begin{displaymath}
+    \begin{array}{l}
+      \begin{array}{llrl}
+        \text{Types}
+        & \tau & \Coloneqq & \alpha \mid \top \mid \tau_1 \to \tau_2 \mid \for \alpha \tau \mid \tau_1 \andop \tau_2 \mid \recty l \tau \\
+        \text{Expressions}
+        & e & \Coloneqq & x \mid \top \mid \lam x \tau e \mid \app {e_1} {e_2} \mid \blam \alpha e \mid \tapp e \tau \mid e_1 \mergeop e_2 \mid \reccon l e \mid e.l \mid e \restrictop l \\
+        \text{Contexts}
+        & \gamma & \Coloneqq & \epsilon \mid \gamma, \alpha \mid \gamma, x \hast \tau \\
+        \text{Labels} & l
+      \end{array}
+    \end{array}
+  \end{displaymath}
+
+  \caption{\fand syntax.}
+\end{figure}
+
+\begin{figure}
+  \begin{mathpar}
+    \framebox{$ \tau \orthog \tau $}
+
+    \ruleorthogvar
+
+    \ruleorthogfun
+
+    \ruleorthogforall
+
+    \ruleorthogandleft
+
+    \ruleorthogandright
+
+    \ruleorthogrec
+  \end{mathpar}
+
+  \caption{Orthogonality between \fand types.}
+\end{figure}
+
+\begin{figure}
+  \begin{mathpar}
+    \framebox{$ \judgeewf \gamma \tau $}
+
+    \ruleewfvar
+
+    \ruleewftop
+
+    \ruleewffun
+
+    \ruleewfforall
+
+    \ruleewfand
+
+    \ruleewfrec
+  \end{mathpar}
+
+  \caption{Well-formedness of \fand types.}
+\end{figure}
+
+\begin{figure}
+  \begin{mathpar}
+    \framebox{$\tau \subtype \tau$}
+
+    \rulesubvar
+
+    \rulesubtop
+
+    \rulesubfun
+
+    \rulesubforall
+
+    \rulesuband
+
+    \rulesubandleft
+
+    \rulesubandright
+
+    \rulesubrec
+  \end{mathpar}
+
+  \caption{Subtyping between \fand types.}
+\end{figure}
+
+\begin{figure}
+  \begin{mathpar}
+    \framebox{$\judgee \gamma e \tau$}
+
+    \ruleevar
+
+    \ruleetop
+
+    \ruleelam
+
+    \ruleeapp
+
+    \ruleeblam
+
+    \ruleetapp
+
+    \ruleemerge
+
+    \ruleerecconstruct
+
+    \ruleerecselect
+
+    \ruleerecrestrict
+  \end{mathpar}
+
+  \begin{mathpar}
+    \framebox{$\judgeselect {\tau_1} l \tau_2 $}
+
+    \ruleget
+
+    \rulegetleft
+
+    \rulegetright
+  \end{mathpar}
+
+  \begin{mathpar}
+    \framebox{$\judgerestrict {\tau_1} l \tau_2 $}
+
+    \rulerestrict
+
+    \rulerestrictleft
+
+    \rulerestrictright
+  \end{mathpar}
+
+  \caption{Typing of \fand.}
+\end{figure}
+
+% \begin{figure*}
+%   \input{rule_in_figures/elab-sub.tex}
+%   \caption{Elaboration subtyping.}
+% \end{figure*}
+
+% \begin{figure*}
+%   \input{rule_in_figures/elab-typing.tex}
+%   \caption{Typing of \name.}
+% \end{figure*}
+
+\end{document}

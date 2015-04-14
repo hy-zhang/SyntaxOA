@@ -1,0 +1,25 @@
+\newcommand{\judgerestrict}[3]{#1 \bm{\restrictop} #2 = #3}
+
+% restrict
+\newcommand{\rulelabelrestrict}{\bm{restrict}}
+\newcommand{\rulerestrict}{
+  \inferrule* [right=$\rulelabelrestrict$]
+  { }
+  {\judgerestrict {\recty l \tau} l \top}
+}
+
+% restrict1
+\newcommand{\rulelabelrestrictleft}{{\rulelabelrestrict}_1}
+\newcommand{\rulerestrictleft}{
+  \inferrule* [right=$\rulelabelrestrictleft$]
+  {\judgerestrict {\tau_1} l \tau}
+  {\judgerestrict {\tau_1 \andop \tau_2} l {\tau \andop \tau_2}}
+}
+
+% restrict2
+\newcommand{\rulelabelrestrictright}{{\rulelabelrestrict}_2}
+\newcommand{\rulerestrictright}{
+  \inferrule* [right=$\rulelabelrestrictright$]
+  {\judgerestrict {\tau_2} l \tau}
+  {\judgerestrict {\tau_1 \andop \tau_2} l {\tau_1 \andop \tau}}
+}

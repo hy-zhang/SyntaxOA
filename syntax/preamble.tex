@@ -1,0 +1,59 @@
+% Remote packages
+
+% For pdflatex, replaced by fontspec:
+% \usepackage{tgpagella}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% For xelatex or lualatex:
+% \usepackage{fontspec}
+% \setmainfont{Times New Roman}
+
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathtools} % For \Coloneqq
+\usepackage{bm}        % Bold symbols in maths mode
+\usepackage{cmll}
+\usepackage{fixltx2e}
+\usepackage{stmaryrd}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings} % For code listings
+% \usepackage{minted}
+% \usemintedstyle{murphy}
+\usepackage{fancyvrb}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage{comment}
+\usepackage{mdwlist}
+
+% Typography
+\usepackage[euler-digits,euler-hat-accent]{eulervm}
+
+% Copied from the FCore paper:
+\usepackage[colorlinks=true,allcolors=black,breaklinks,draft=false]{hyperref}   % hyperlinks, including DOIs and URLs in bibliography
+% known bug: http://tex.stackexchange.com/questions/1522/pdfendlink-ended-up-in-different-nesting-level-than-pdfstartlink
+
+% Figures with borders
+% http://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
+% \usepackage{float}
+% \floatstyle{boxed}
+% \restylefloat{figure}
+
+% Local packages
+
+% \usepackage{styles/bcprules}    % by Benjamin C. Pierce
+\usepackage{styles/mathpartir}  % by Didier Rémy
+
+
+% ! Always load mathastext last
+% http://mirrors.ibiblio.org/CTAN/macros/latex/contrib/mathastext/mathastext.pdf
+% \renewcommand\familydefault\ttdefault
+% \usepackage{mathastext}
+% \renewcommand\familydefault\rmdefault
+
+% http://tex.stackexchange.com/questions/114151/how-do-i-reference-in-appendix-a-theorem-given-in-the-body
+\usepackage{thmtools, thm-restate}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}

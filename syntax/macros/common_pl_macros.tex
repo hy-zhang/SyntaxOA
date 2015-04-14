@@ -32,12 +32,17 @@
 \newcommand{\tapp}[2]{#1 \appspacing #2}
 \newcommand{\mergeop}{,,}
 \newcommand{\reccon}[2]{\{ #1 = #2 \}}
-\newcommand{\restrictop}{\setminus}
 \newcommand{\recupdate}[3]{#1 \; \mathbf{with} \; \{#2 = #3\}}
 \newcommand{\proj}[2]{{\code{proj}}_{#1} #2}
+\newcommand{\letexpr}[3]{\kwlet \; x = e \; \kwin \; e}
 
+% Keywords
+\newcommand{\keyword}[1]{\texttt{#1}}
 
-\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\kwlet}{\keyword{let}}
+\newcommand{\kwin}{\keyword{in}}
+\newcommand{\kwwhere}{\keyword{where}}
+
 
 \newcommand{\Int}{\code{Int}}
 \newcommand{\String}{\code{String}}
@@ -52,19 +57,7 @@
 \colorlet{subcolor}{OliveGreen}
 \colorlet{targetcolor}{BrickRed}
 
-% Subtyping labels
-\newcommand{\rulelabelsub}{\bm{\textcolor{subcolor}{sub}}}
-\newcommand{\rulelabelsubvar}{\rulelabelsub\text{var}}
-\newcommand{\rulelabelsubtop}{\rulelabelsub\text{top}}
-\newcommand{\rulelabelsubfun}{\rulelabelsub\text{fun}}
-\newcommand{\rulelabelsubforall}{\rulelabelsub\text{forall}}
-\newcommand{\rulelabelsuband}{\rulelabelsub\text{and}}
-\newcommand{\rulelabelsubandleft}{\rulelabelsub{\text{and}_1}}
-\newcommand{\rulelabelsubandright}{\rulelabelsub{\text{and}_2}}
-\newcommand{\rulelabelsubrec}{\rulelabelsub\text{rec}}
-
 % Source/elaboration and labels
-\newcommand{\judgeewf}[2]{#1 \; \textcolor{elabcolor}{\turns} \; #2}
 \newcommand{\rulelabelerecupd}{\rulelabele\text{rec-upd}}
 
 

@@ -1,0 +1,91 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Typing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\judgee}[3]{#1 \; \turns \; #2 \; : \; #3}
+\newcommand{\rulelabele}{\bm{ty}}
+
+% var
+\newcommand{\rulelabelevar}{\rulelabele\text{var}}
+\newcommand{\ruleevar} {
+\inferrule* [right=$\rulelabelevar$]
+  {(x,\tau) \in \gamma}
+  {\judgee \gamma x \tau}
+}
+
+% top
+\newcommand{\rulelabeletop}{\rulelabele\text{top}}
+\newcommand{\ruleetop} {
+\inferrule* [right=$\rulelabeletop$]
+  { }
+  {\judgee \gamma \top \top}
+}
+
+% lam
+\newcommand{\rulelabelelam}{\rulelabele\text{lam}}
+\newcommand{\ruleelam} {
+\inferrule* [right=$\rulelabelelam$]
+  {\judgee {\gamma, x \hast \tau} e {\tau_1} \\ \judgeewf \gamma \tau}
+  {\judgee \gamma {\lam x \tau e} {\tau \to \tau_1}}
+}
+
+% app
+\newcommand{\rulelabeleapp}{\rulelabele\text{app}}
+\newcommand{\ruleeapp}{
+\inferrule* [right=$\rulelabeleapp$]
+  {\judgee \gamma {e_1} {\tau_1 \to \tau_2} \\
+   \judgee \gamma {e_2} {\tau_3} \\
+   \tau_3 \subtype \tau_1}
+  {\judgee \gamma {\app {e_1} {e_2}} {\tau_2}}
+}
+
+% blam
+\newcommand{\rulelabeleblam}{\rulelabele\text{blam}}
+\newcommand{\ruleeblam}{
+\inferrule* [right=$\rulelabeleblam$]
+  {\judgee {\gamma, \alpha} e \tau}
+  {\judgee \gamma {\blam \alpha e} {\for \alpha \tau}}
+}
+
+% tapp
+\newcommand{\rulelabeletapp}{\rulelabele\text{tapp}}
+\newcommand{\ruleetapp}{
+\inferrule* [right=$\rulelabeletapp$]
+  {\judgee \gamma e {\for \alpha {\tau_1}} \\ \judgeewf \gamma \tau}
+  {\judgee \gamma {\tapp e \tau} {\subst \tau \alpha \tau_1}}
+}
+
+% merge
+\newcommand{\rulelabelemerge}{\rulelabele\text{merge}}
+\newcommand{\ruleemerge}{
+\inferrule* [right=$\rulelabelemerge$]
+  {\judgee \gamma {e_1} {\tau_1} \\
+   \judgee \gamma {e_2} {\tau_2}}
+  {\judgee \gamma {e_1 \mergeop e_2} {\tau_1 \andop \tau_2}}
+}
+
+% rec-construct
+\newcommand{\rulelabelerecconstruct}{\rulelabele\text{rec-construct}}
+\newcommand{\ruleerecconstruct}{
+\inferrule* [right=$\rulelabelerecconstruct$]
+  {\judgee \gamma e \tau}
+  {\judgee \gamma {\reccon l e} {\recty l \tau}}
+}
+
+% rec-select
+\newcommand{\rulelabelerecselect}{\rulelabele\text{rec-select}}
+\newcommand{\ruleerecselect}{
+\inferrule* [right=$\rulelabelerecselect$]
+  {\judgee \gamma e \tau \\
+   \judgeselect \tau l {\tau_1}}
+  {\judgee \gamma {e.l} {\tau_1}}
+}
+
+% rec-restrict
+\newcommand{\rulelabelerecrestrict}{\rulelabele\text{rec-restrict}}
+\newcommand{\ruleerecrestrict}{
+\inferrule* [right=$\rulelabelerecrestrict$]
+  {\judgee \gamma e \tau \\
+   \judgerestrict \tau l {\tau_1}}
+  {\judgee \gamma {e \restrictop l} {\tau_1}}
+}

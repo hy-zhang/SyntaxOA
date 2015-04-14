@@ -1,0 +1,57 @@
+\newcommand{\rulelabelsub}{\bm{sub}}
+
+\newcommand{\rulelabelsubvar}{\rulelabelsub\text{var}}
+\newcommand{\rulesubvar}{
+\inferrule* [right=$\rulelabelsubvar$]
+  { }
+  {\alpha \subtype \alpha}
+}
+
+\newcommand{\rulelabelsubtop}{\rulelabelsub\text{top}}
+\newcommand{\rulesubtop}{
+\inferrule* [right=$\rulelabelsubtop$]
+  { }
+  {\tau \subtype \top}
+}
+
+\newcommand{\rulelabelsubfun}{\rulelabelsub\text{fun}}
+\newcommand{\rulesubfun}{
+\inferrule* [right=$\rulelabelsubfun$]
+  {\tau_3 \subtype \tau_1 \\ \tau_2 \subtype \tau_4}
+  {\tau_1 \to \tau_2 \subtype \tau_3 \to \tau_4}
+}
+
+\newcommand{\rulelabelsubforall}{\rulelabelsub\text{forall}}
+\newcommand{\rulesubforall}{
+\inferrule* [right=$\rulelabelsubforall$]
+  {\tau_1 \subtype \subst {\alpha_1} {\alpha_2} \tau_2}
+  {\for {\alpha_1} \tau_1 \subtype \for {\alpha_2} \tau_2}
+}
+
+\newcommand{\rulelabelsuband}{\rulelabelsub\text{and}}
+\newcommand{\rulesuband}{
+\inferrule* [right=$\rulelabelsuband$]
+  {\tau_1 \subtype \tau_2 \\ \tau_1 \subtype \tau_3}
+  {\tau_1 \subtype \tau_2 \andop \tau_3}
+}
+
+\newcommand{\rulelabelsubandleft}{\rulelabelsub{\text{and}_1}}
+\newcommand{\rulesubandleft}{
+\inferrule* [right=$\rulelabelsubandleft$]
+  {\tau_1 \subtype \tau_3}
+  {\tau_1 \andop \tau_2 \subtype \tau_3}
+}
+
+\newcommand{\rulelabelsubandright}{\rulelabelsub{\text{and}_2}}
+\newcommand{\rulesubandright}{
+\inferrule* [right=$\rulelabelsubandright$]
+  {\tau_2 \subtype \tau_3}
+  {\tau_1 \andop \tau_2 \subtype \tau_3}
+}
+
+\newcommand{\rulelabelsubrec}{\rulelabelsub\text{rec}}
+\newcommand{\rulesubrec}{
+\inferrule* [right=$\rulelabelsubrec$]
+  {\tau_1 \subtype \tau_2}
+  {\recty l {\tau_1} \subtype \recty l {\tau_2}}
+}

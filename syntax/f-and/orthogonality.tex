@@ -1,0 +1,45 @@
+\newcommand{\orthog}{\perp}
+
+\newcommand{\rulelabelorthog}{\bm{o}}
+
+\newcommand{\rulelabelorthogvar}{\rulelabelorthog\text{var}}
+\newcommand{\ruleorthogvar}{
+\inferrule* [right=$\rulelabelorthogvar$]
+  {\alpha_1 \neq \alpha_2}
+  {\alpha_1 \orthog \alpha_2}
+}
+
+\newcommand{\rulelabelorthogfun}{\rulelabelorthog\text{fun}}
+\newcommand{\ruleorthogfun}{
+\inferrule* [right=$\rulelabelorthogfun$]
+  {\tau_1 \orthog \tau_3 \\ \tau_2 \orthog \tau_4}
+  {\tau_1 \to \tau_2 \orthog \tau_3 \to \tau_4}
+}
+
+\newcommand{\rulelabelorthogforall}{\rulelabelorthog\text{forall}}
+\newcommand{\ruleorthogforall}{
+\inferrule* [right=$\rulelabelorthogforall$]
+  {\tau_1 \orthog \subst {\alpha_1} {\alpha_2} \tau_2}
+  {\for {\alpha_1} \tau_1 \orthog \for {\alpha_2} \tau_2}
+}
+
+\newcommand{\rulelabelorthogandleft}{\rulelabelorthog{\text{and-left}}}
+\newcommand{\ruleorthogandleft}{
+\inferrule* [right=$\rulelabelorthogandleft$]
+  {\tau_1 \orthog \tau_3 \\ \tau_2 \orthog \tau_3}
+  {\tau_1 \andop \tau_2 \orthog \tau_3}
+}
+
+\newcommand{\rulelabelorthogandright}{\rulelabelorthog{\text{and-right}}}
+\newcommand{\ruleorthogandright}{
+\inferrule* [right=$\rulelabelorthogandright$]
+  {\tau_1 \orthog \tau_2 \\ \tau_1 \orthog \tau_3}
+  {\tau_1 \orthog \tau_2 \andop \tau_3}
+}
+
+\newcommand{\rulelabelorthogrec}{\rulelabelorthog\text{rec}}
+\newcommand{\ruleorthogrec}{
+\inferrule* [right=$\rulelabelorthogrec$]
+  {l_1 \neq l_2}
+  {\recty {l_1} {\tau_1} \orthog \recty {l_2} {\tau_2}}
+}
