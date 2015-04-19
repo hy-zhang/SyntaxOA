@@ -1,6 +1,6 @@
 \documentclass[a4paper]{article}
 
-\usepackage[top=.5in, bottom=.5in, left=.75in, right=.75in]{geometry}
+\usepackage[top=.5in, bottom=.5in, left=.5in, right=.5in]{geometry}
 
 \input{others/preamble.tex}
 
@@ -39,13 +39,18 @@
         &   & \mid & \sigext {s_1} {\alpha_1} {s_2} \alpha l \tau e \\
         &   & \mid & \alg x s \tau l {l_1} {x_1} {e_1} e \\
         &   & \mid & \algext x {x_0} s \tau l {l_1} {x_1} {e_1} e \\
-        &   & \mid & \data d s \alpha {\alpha_0} e \\
-        \text{Contexts} & \Gamma & \Coloneqq & \epsilon \mid \Gamma, \alpha \mid \Gamma, x \hast \tau \mid \Gamma, s {[} \overline{\alpha} {]}\to\overline{l:\tau} \\
+        &   & \mid & \data d s {\alpha_0} {\alpha_1} e \\
+        %&   & \mid & \letexpr {x : d[\overline{\tau}]} {e_1} e \\
+        &   & \mid & \letexpr {x \; (\overline{x_1} : \overline{\tau_1}) \; (\overline{x_2} : d[\overline{\tau}]) : d[\overline{\tau}]} {e_1} e \\
+        &   & \mid & e[\overline{\tau}]\texttt{<}\overline{x}\texttt{>} \\
+        \text{Contexts} & \Gamma & \Coloneqq & \epsilon \mid \Gamma, \alpha \mid \Gamma, x \hast \tau \mid \Gamma, s {[} \overline{\alpha} {]}\to\overline{l:\tau} \mid \Gamma, d \rightsquigarrow s[\overline{\alpha_0}].\alpha_1 : \tau \\
         \text{Labels} & l &  & \text{(fields)} \\
         & s &  & \text{(interfaces)} \\
         & d &  & \text{(datatypes)}\\
-        \text{Syntactic sugars} & \circ & \Coloneqq & s[\alpha_0] \\
-        & \bullet & \Coloneqq & [\overline{\alpha_0}/\overline{\alpha}]\{\overline{l:\tau}\}
+        \text{Syntactic sugars} & \circ & \Coloneqq & s[\overline{\alpha_0}] \\
+        & \bullet & \Coloneqq & [\overline{\alpha_0}/\overline{\alpha}]\{\overline{l:\tau}\} \text{ or } [\overline{\alpha_0}/\overline{\alpha}]\Gamma(s) \\
+        & \circ & \Coloneqq & d(\overline{\tau_0}) \\
+        & \bullet & \Coloneqq & [\overline{\tau_0}/(\overline{\alpha_0}\backslash\alpha_1)]\Gamma(d)
       \end{array}
     \end{array}
 \end{displaymath}
@@ -66,17 +71,67 @@
       \end{array}
     \end{array}
 \end{displaymath}
-  
+
 \section{Translation}
 
 \begin{mathpar}
     \framebox{$ \judgeewf \Gamma {e:\tau\Rightarrow E} $}
 
     \rulesig
-    
+
     \rulesigext
-    
+
     \rulealg
+
+    \rulealgext
+
+    \ruledatatype
+
+    %\rulebuilda
+    
+    \rulebuildb
+    
+    \ruleinsta
 \end{mathpar}
+
+~\\
+
+$merge_s$: the merge algebra for object algebra interface $s$.\\
+
+$\mergealg$\\
+
+$gen(l)$: $\lam {\overline{x}} {...} {alg1.\overline{x} \mergeop alg2.\overline{x}}$.\\
+
+$gen2(l)$: get the type from context $\Gamma(s).l$.\\
+
+$gen3(l)$: for each case $l$, generate an auxiliary function for building structures. Only consider those with return type $\alpha_1$ in $\data d s {\alpha_0} {\alpha_1} e$.\\
+
+$[gen4(d)]$: $[\overline{l[\overline{\tau}]}/\overline{l}]$. Only when $d \rightsquigarrow s[\overline{\alpha_0}].\alpha_1$, $l$ is a constructor in $s$, and $gen3(l)$ exists.
+
+\section{Amendment}
+
+\subsection{In translation: alg}
+
+Question: Type-check for $\tau_1$ <: the return type in $\Gamma(s)$?
+
+\subsection{In translation: algext}
+
+Question: Type-check for $\overline{s[\overline{\tau}]}$ = $\overline{\tau_0}$ + ...?
+
+\subsection{In translation: datatype}
+
+Question: Check if $\alpha_1\in\overline{\alpha_0}$? Not sure if something like ... makes sense.
+
+\subsection{In translation: insta}
+
+Question: Check if $e$ has the field ``accept''? And the relationship between $\tau_0$ and $\tau_*$?
+
+\subsection{Critical: algebras in context?}
+
+Question: Put algebras into context? Need to check more for types in that case. But instantiation becomes more concise. Currently the translation rule for instantiation doesn't really work (it doesn't know which interface to use, since merge algebras are namespaced). The merge algebra is limited. And some constructors potentially cannot be generated automatically.
+
+\subsection{Extension: sig as type? structure building?}
+
+Question: Currently a structure can only be built from datatype. With signatures as types, the code could be more flexible.
 
 \end{document}
