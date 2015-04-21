@@ -43,7 +43,7 @@
         &   & \mid & \data d s {\alpha_0} {\alpha_1} e \\
         %&   & \mid & \letexpr {x : d[\overline{\tau}]} {e_1} e \\
         &   & \mid & \letexpr {x \; (\overline{x_1} : \overline{\tau_1}) \; (\overline{x_2} : d[\overline{\tau}]) : d[\overline{\tau}]} {e_1} e \\
-        &   & \mid & e[\overline{\tau}]\texttt{<}\overline{x}\texttt{>} \\
+        &   & \mid & \texttt{<}\overline{x}\texttt{>} \\
         \text{Contexts} & \Gamma & \Coloneqq & \epsilon \mid \Gamma, \alpha \mid \Gamma, x \hast \tau \\
         &   & \mid & \Gamma, s {[} \overline{\alpha} {]}\to\overline{l:\tau} \\
         &   & \mid & \Gamma, x \multimap \overline{s[\overline{\tau}]} \\
@@ -104,15 +104,28 @@ $merge_s$: the merge algebra for object algebra interface $s$.\\
 
 $\mergealg$\\
 
+$merge_s\overline{[\overline{\tau}]} \; \overline{x}$: generalizing $merge_s[\overline{\tau_i}][\overline{\tau_j}] \; x_i \; x_j$.\\
+
 $gen(l)$: $\lam {\overline{x}} {...} {alg1.\overline{x} \mergeop alg2.\overline{x}}$.\\
 
-$gen2(l)$: get the type from context $\Gamma(s).l$.\\
+$gen2(l)$: get the type from context $\Gamma(s).l$. $gen2_A(l)$ derives the type of arguments in field $l$, and $gen2_B(l)$ gets the return type.\\
 
 $gen3(l)$: for each case $l$, generate an auxiliary function for building structures. Only consider those with return type $\alpha_1$ in $\data d s {\alpha_0} {\alpha_1} e$.\\
 
-$[gen4(d)]$: $[\overline{l[\overline{\tau}]}/\overline{l}]$. Only when $d \rightsquigarrow s[\overline{\alpha_0}].\alpha_1$, $l$ is a constructor in $s$, and $gen3(l)$ exists.
+$[gen4(d)]$: $[\overline{l[\overline{\tau}]}/\overline{l}]$. Only when $d \rightsquigarrow s[\overline{\alpha_0}].\alpha_1$, $l$ is a constructor in $s$, and $gen3(l)$ exists.\\
+
+$\textbf{U}_\varnothing$ denotes the disjoint union on records, and $\textbf{U}_\leftarrow$ also means the union, but the fields on the right side will replace the left ones with same names.\\
 
 \section{Auxiliary Rules for Expanding Types}
+
+\begin{mathpar}
+    \framebox{$ \judgeewf \Gamma {\tau\Rightarrow\Tau} $}
+    
+    \ruleexpandsig
+    
+    \ruleexpanddata
+    % Here I can use \tau_* directly?
+\end{mathpar}
 
 %\section{Amendment}
 
@@ -127,7 +140,7 @@ $[gen4(d)]$: $[\overline{l[\overline{\tau}]}/\overline{l}]$. Only when $d \right
 
 %\subsection{Critical: algebras in context?}
 
-%Question: Put algebras into context? Need to check more for types in that case. But instantiation becomes more concise. Currently the translation rule for instantiation doesn't really work (it doesn't know which interface to use, since merge algebras are namespaced). 
+%Question: Put algebras into context? Need to check more for types in that case. But instantiation becomes more concise. Currently the translation rule for instantiation doesn't really work (it doesn't know which interface to use, since merge algebras are namespaced).
 
 %!!! The merge algebra is limited. And some constructors potentially cannot be generated automatically.
 
@@ -147,6 +160,6 @@ The rules should support both special syntax for algebras and common syntax.
 
 Each datatype has only one sort. And instantiation only works for datatypes.\\
 
-Type and consistency check need. Like in the declaration of an algebra, the label $l$ should be consistent. And in the instantiation $e[\overline{\tau}]\texttt{<}\overline{x}\texttt{>}$, it requires $\overline{x \multimap s[\overline{\tau}]}$ with the same $s$.
+Type and consistency check need. Like in the declaration of an algebra, the label $l$ should be consistent. And in the instantiation $\texttt{<}\overline{x}\texttt{>}$, it requires $\overline{x \multimap s[\overline{\tau}]}$ with the same $s$.
 
 \end{document}
