@@ -46,8 +46,8 @@
 
 \newcommand{\rulealg}{
 \inferrule* [right=]
-  {\overline{\judgeewf \Gamma {s[\overline{\alpha}]}} \\ \overline{\trans {\Gamma, \overline{x_1} : gen2(l_1)} {e_1} {\tau_1} {E_1}} \\ \trans {\Gamma, x : \andop\overline{[\overline{\tau}/\overline{\alpha}]\Gamma(s)}} e {\tau_*} E}
-  {\trans \Gamma {\alg x s \tau l {l_1} {x_1} {e_1} e} {\tau_*} {\letexpr {x : \andop\overline{[\overline{\tau}/\overline{\alpha}]\Gamma(s)}} {\{\overline{l_1 = \lam {\overline{x_1}} {gen2(l_1)} {E_1}}\}} E}}
+  {\overline{\judgeewf \Gamma {s[\overline{\alpha}]}} \\ \overline{\trans {\Gamma, \overline{x_1} : gen2_A(l_1)} {e_1} {\tau_1} {E_1}} \\ \overline{\tau_1 \subtype gen2_B(l_1)} \\ \trans {\Gamma, x : \andop\overline{[\overline{\tau}/\overline{\alpha}]\Gamma(s)}, x \multimap \overline{s[\overline{\tau}]}} e {\tau_*} E}
+  {\trans \Gamma {\alg x s \tau l {l_1} {x_1} {e_1} e} {\tau_*} {\letexpr {x : \andop\overline{[\overline{\tau}/\overline{\alpha}]\Gamma(s)}} {\{\overline{l_1 = \lam {\overline{x_1}} {gen2_A(l_1)} {E_1}}\}} E}}
 }
 
 \newcommand{\rulealgext}{

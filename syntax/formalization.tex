@@ -43,12 +43,15 @@
         %&   & \mid & \letexpr {x : d[\overline{\tau}]} {e_1} e \\
         &   & \mid & \letexpr {x \; (\overline{x_1} : \overline{\tau_1}) \; (\overline{x_2} : d[\overline{\tau}]) : d[\overline{\tau}]} {e_1} e \\
         &   & \mid & e[\overline{\tau}]\texttt{<}\overline{x}\texttt{>} \\
-        \text{Contexts} & \Gamma & \Coloneqq & \epsilon \mid \Gamma, \alpha \mid \Gamma, x \hast \tau \mid \Gamma, s {[} \overline{\alpha} {]}\to\overline{l:\tau} \mid \Gamma, d \rightsquigarrow s[\overline{\alpha_0}].\alpha_1 : \tau \\
+        \text{Contexts} & \Gamma & \Coloneqq & \epsilon \mid \Gamma, \alpha \mid \Gamma, x \hast \tau \\
+        &   & \mid & \Gamma, s {[} \overline{\alpha} {]}\to\overline{l:\tau} \\
+        &   & \mid & \Gamma, x \multimap \overline{s[\overline{\tau}]} \\
+        &   & \mid & \Gamma, d \rightsquigarrow s[\overline{\alpha_0}].\alpha_1 : \tau \\
         \text{Labels} & l &  & \text{(fields)} \\
         & s &  & \text{(interfaces)} \\
         & d &  & \text{(datatypes)}\\
         \text{Syntactic sugars} & \circ & \Coloneqq & s[\overline{\alpha_0}] \\
-        & \bullet & \Coloneqq & [\overline{\alpha_0}/\overline{\alpha}]\{\overline{l:\tau}\} \text{ or } [\overline{\alpha_0}/\overline{\alpha}]\Gamma(s) \\
+        & \bullet & \Coloneqq & [\overline{\alpha_0}/\overline{\alpha}]\Gamma(s) \\
         & \circ & \Coloneqq & d(\overline{\tau_0}) \\
         & \bullet & \Coloneqq & [\overline{\tau_0}/(\overline{\alpha_0}\backslash\alpha_1)]\Gamma(d)
       \end{array}
@@ -72,7 +75,7 @@
     \end{array}
 \end{displaymath}
 
-\section{Translation}
+\section{Translation Rules}
 
 \begin{mathpar}
     \framebox{$ \judgeewf \Gamma {e:\tau\Rightarrow E} $}
@@ -88,9 +91,9 @@
     \ruledatatype
 
     %\rulebuilda
-    
+
     \rulebuildb
-    
+
     \ruleinsta
 \end{mathpar}
 
@@ -107,6 +110,8 @@ $gen2(l)$: get the type from context $\Gamma(s).l$.\\
 $gen3(l)$: for each case $l$, generate an auxiliary function for building structures. Only consider those with return type $\alpha_1$ in $\data d s {\alpha_0} {\alpha_1} e$.\\
 
 $[gen4(d)]$: $[\overline{l[\overline{\tau}]}/\overline{l}]$. Only when $d \rightsquigarrow s[\overline{\alpha_0}].\alpha_1$, $l$ is a constructor in $s$, and $gen3(l)$ exists.
+
+\section{Auxiliary Rules for Expanding Types}
 
 \section{Amendment}
 
@@ -133,5 +138,14 @@ Question: Put algebras into context? Need to check more for types in that case. 
 \subsection{Extension: sig as type? structure building?}
 
 Question: Currently a structure can only be built from datatype. With signatures as types, the code could be more flexible.
+
+\subsection{Notes}
+
+The rules should support both special syntax for algebras and common syntax.
+\begin{itemize}
+\item \textbf{sig:} (1) in the environment; (2) as a type synonym.
+\item \textbf{alg:} (1) in the environment; (2) as a function.
+\item \textbf{data:} (1) in the environment; (2) as a type synonym.
+\end{itemize}
 
 \end{document}
