@@ -106,7 +106,7 @@ $\mergealg$\\
 
 $merge_s\overline{[\overline{\tau}]} \; \overline{x}$: generalizing $merge_s[\overline{\tau_i}][\overline{\tau_j}] \; x_i \; x_j$.\\
 
-$gen(l)$: $\lam {\overline{x}} {gen2_A(l)} {alg1.l \; \overline{x} \mergeop alg2.l \; \overline{x}}$.\\
+$gen(l)$: $\lam {\overline{x}} {gen2_A(l)} {alg_1.l \; \overline{x} \mergeop alg_2.l \; \overline{x}}$.\\
 
 $gen2(l)$: get the type from context $\Gamma(s).l$. $gen2_A(l)$ derives the type of arguments in field $l$, and $gen2_B(l)$ gets the return type.\\
 
@@ -171,7 +171,29 @@ Type and consistency check need. The type-check has already been \red{highlighte
 
 ~
 
+Declaration of $ListAlg$: \[sig \; ListAlg[A, \; L] \; where \; nil : L, \; cons : A \to L \to L;\]
 
+Get the types:
+\[\begin{array}{rclcrcl}
+    gen2_A(nil) & = & - & \hspace{.5in} & gen2_A(cons) & = & A, \; L \\
+    gen2_B(nil) & = & L &               & gen2_B(cons) & = & L
+\end{array}\]
 
+The merge algebra: 
+\[\begin{array}{lcl}
+    mergeListAlg & = & \blam {(A1,\;L1)} {\blam {(A2,\;L2)} {\lam {alg1} {ListAlg[A1,\;L1]} {\lam {alg2} {ListAlg[A2,\;L2]} {}}}} \\
+                 &   & \{ \; nil \ \ \  = \; alg1.nil \; \mergeop \;  alg2.nil, \\
+                 &   & \; \; cons \; = \; \lam {x} {A1 \andop A2} {\lam {y} {L1 \andop L2} {alg1.cons \; x \; y \; \mergeop \; alg2.cons \; x \; y \;}} \}
+\end{array}\]
+
+Declaration of $List$: \[data \; List \; from \; ListAlg[A,\;L].L;\]
+
+Generate auxiliary constructors:
+\[\begin{array}{rcl}
+gen3(nil) & : & \for A {List[A]} \\ 
+ & = & \blam A {\{accept \; = \; \blam L {\lam {alg} {ListAlg[A, \; L]} {alg.nil}}\}} \\
+gen3(cons) & : & \for A {A \to List[A] \to List[A]} \\
+ & = & \blam A {\lam x A {\lam y {List[A]} {\{accept \; = \; \blam L {\lam {alg} {ListAlg[A, \; L]} {alg.cons \; x \; (y.accept[L] \; alg)}}\}}}}
+\end{array}\]
 
 \end{document}
