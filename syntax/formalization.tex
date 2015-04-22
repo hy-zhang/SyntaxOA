@@ -1,6 +1,6 @@
 \documentclass[a4paper]{article}
 
-\usepackage[top=.5in, bottom=.5in, left=.5in, right=.5in]{geometry}
+\usepackage[top=.2in, bottom=.2in, left=.2in, right=.2in]{geometry}
 
 \input{others/preamble.tex}
 
@@ -51,8 +51,8 @@
         \text{Labels} & l &  & \text{(fields)} \\
         & s &  & \text{(interfaces)} \\
         & d &  & \text{(datatypes)}\\
-        \text{Syntactic sugars} & \circ & \Coloneqq & s[\overline{\alpha_0}] \\
-        & \bullet & \Coloneqq & [\overline{\alpha_0}/\overline{\alpha}]\Gamma(s) \\
+        \text{Syntactic sugars} & \circ & \Coloneqq & s[\overline{\tau_0}] \\
+        & \bullet & \Coloneqq & [\overline{\tau_0}/\overline{\alpha}]\Gamma(s) \\
         & \circ & \Coloneqq & d(\overline{\tau_0}) \\
         & \bullet & \Coloneqq & [\overline{\tau_0}/(\overline{\alpha_0}\backslash\alpha_1)]\Gamma(d)
       \end{array}
@@ -106,11 +106,11 @@ $\mergealg$\\
 
 $merge_s\overline{[\overline{\tau}]} \; \overline{x}$: generalizing $merge_s[\overline{\tau_i}][\overline{\tau_j}] \; x_i \; x_j$.\\
 
-$gen(l)$: $\lam {\overline{x}} {...} {alg1.\overline{x} \mergeop alg2.\overline{x}}$.\\
+$gen(l)$: $\lam {\overline{x}} {gen2_A(l)} {alg1.l \; \overline{x} \mergeop alg2.l \; \overline{x}}$.\\
 
 $gen2(l)$: get the type from context $\Gamma(s).l$. $gen2_A(l)$ derives the type of arguments in field $l$, and $gen2_B(l)$ gets the return type.\\
 
-$gen3(l)$: for each case $l$, generate an auxiliary function for building structures. Only consider those with return type $\alpha_1$ in $\data d s {\alpha_0} {\alpha_1} e$.\\
+$gen3(l)$: for each case $l$, generate an auxiliary function for building structures. Only consider those with return type $[\overline{\alpha_0}/\overline{\alpha}]gen2_B(l)=\alpha_1$, where $\overline{\alpha_0},\alpha_1$ are the ones from $\data d s {\alpha_0} {\alpha_1} e$.\\
 
 $[gen4(d)]$: $[\overline{l[\overline{\tau}]}/\overline{l}]$. Only when $d \rightsquigarrow s[\overline{\alpha_0}].\alpha_1$, $l$ is a constructor in $s$, and $gen3(l)$ exists.\\
 
@@ -118,14 +118,19 @@ $\textbf{U}_\varnothing$ denotes the disjoint union on records, and $\textbf{U}_
 
 \section{Auxiliary Rules for Expanding Types}
 
+~
+
 \begin{mathpar}
     \framebox{$ \judgeewf \Gamma {\tau\Rightarrow\Tau} $}
-    
+
     \ruleexpandsig
-    
+
     \ruleexpanddata
-    % Here I can use \tau_* directly?
 \end{mathpar}
+
+~\\
+
+The rules here are consistent with the syntactic sugars before.
 
 %\section{Amendment}
 
@@ -160,6 +165,13 @@ The rules should support both special syntax for algebras and common syntax.
 
 Each datatype has only one sort. And instantiation only works for datatypes.\\
 
-Type and consistency check need. Like in the declaration of an algebra, the label $l$ should be consistent. And in the instantiation $\texttt{<}\overline{x}\texttt{>}$, it requires $\overline{x \multimap s[\overline{\tau}]}$ with the same $s$.
+Type and consistency check need. The type-check has already been \red{highlighted} in translation rules. For consistency, like in the declaration of an algebra, the label $l$ should be consistent. And in the instantiation $\texttt{<}\overline{x}\texttt{>}$, it requires $\overline{x \multimap s[\overline{\tau}]}$ with the same $s$.
+
+\section{Example: ListAlg}
+
+~
+
+
+
 
 \end{document}
